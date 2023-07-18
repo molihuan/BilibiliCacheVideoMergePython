@@ -14,124 +14,136 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="goBackBtn">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>50</y>
-      <width>93</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>上一级</string>
-    </property>
-   </widget>
-   <widget class="QTableWidget" name="dataTableWidget">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>90</y>
-      <width>781</width>
-      <height>421</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QWidget" name="layoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>0</y>
-      <width>781</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <layout class="QHBoxLayout" name="CatchVedioDirLayout">
-     <item>
-      <widget class="QLabel" name="vedioDirLabel">
-       <property name="text">
-        <string>视频缓存目录:</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="vedioDirShowLineEdit">
-       <property name="dragEnabled">
-        <bool>true</bool>
-       </property>
-       <property name="clearButtonEnabled">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="selectVedioDirBtn">
-       <property name="text">
-        <string>选择目录</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
-   <widget class="QWidget" name="layoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>500</x>
-      <y>40</y>
-      <width>295</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
-     <item>
-      <widget class="QPushButton" name="completeFileBtn">
-       <property name="text">
-        <string>完成文件</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="selectAllBtn">
-       <property name="text">
-        <string>全选</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="refreshBtn">
-       <property name="text">
-        <string>刷新</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
-   <widget class="QWidget" name="layoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>300</x>
-      <y>520</y>
-      <width>195</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <layout class="QHBoxLayout" name="horizontalLayout_3">
-     <item>
-      <widget class="QPushButton" name="getMP3Btn">
-       <property name="text">
-        <string>提取音频</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="mergeBtn">
-       <property name="text">
-        <string>合并</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
+   <layout class="QVBoxLayout" name="verticalLayout_2">
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <layout class="QHBoxLayout" name="CatchVedioDirLayout">
+        <item>
+         <widget class="QLabel" name="vedioDirLabel">
+          <property name="text">
+           <string>视频缓存目录:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="vedioDirShowLineEdit">
+          <property name="dragEnabled">
+           <bool>true</bool>
+          </property>
+          <property name="clearButtonEnabled">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="selectVedioDirBtn">
+          <property name="text">
+           <string>选择目录</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QPushButton" name="goBackBtn">
+          <property name="text">
+           <string>上一级</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <item>
+           <widget class="QPushButton" name="completeFileBtn">
+            <property name="text">
+             <string>完成文件</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="selectAllBtn">
+            <property name="text">
+             <string>全选</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="refreshBtn">
+            <property name="text">
+             <string>刷新</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QTableWidget" name="dataTableWidget"/>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <item>
+         <spacer name="horizontalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QPushButton" name="getMP3Btn">
+          <property name="text">
+           <string>提取音频</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="mergeBtn">
+          <property name="text">
+           <string>合并</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_3">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </item>
+   </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

@@ -18,8 +18,8 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QTransform)
 from PySide6.QtWidgets import (QApplication, QHBoxLayout, QHeaderView, QLabel,
     QLineEdit, QMainWindow, QMenu, QMenuBar,
-    QPushButton, QSizePolicy, QStatusBar, QTableWidget,
-    QTableWidgetItem, QWidget)
+    QPushButton, QSizePolicy, QSpacerItem, QStatusBar,
+    QTableWidget, QTableWidgetItem, QVBoxLayout, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -38,71 +38,96 @@ class Ui_MainWindow(object):
         self.aboutItem.setObjectName(u"aboutItem")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
-        self.goBackBtn = QPushButton(self.centralwidget)
-        self.goBackBtn.setObjectName(u"goBackBtn")
-        self.goBackBtn.setGeometry(QRect(10, 50, 93, 31))
-        self.dataTableWidget = QTableWidget(self.centralwidget)
-        self.dataTableWidget.setObjectName(u"dataTableWidget")
-        self.dataTableWidget.setGeometry(QRect(10, 90, 781, 421))
-        self.layoutWidget = QWidget(self.centralwidget)
-        self.layoutWidget.setObjectName(u"layoutWidget")
-        self.layoutWidget.setGeometry(QRect(10, 0, 781, 41))
-        self.CatchVedioDirLayout = QHBoxLayout(self.layoutWidget)
+        self.verticalLayout_2 = QVBoxLayout(self.centralwidget)
+        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
+        self.verticalLayout = QVBoxLayout()
+        self.verticalLayout.setObjectName(u"verticalLayout")
+        self.CatchVedioDirLayout = QHBoxLayout()
         self.CatchVedioDirLayout.setObjectName(u"CatchVedioDirLayout")
-        self.CatchVedioDirLayout.setContentsMargins(0, 0, 0, 0)
-        self.vedioDirLabel = QLabel(self.layoutWidget)
+        self.vedioDirLabel = QLabel(self.centralwidget)
         self.vedioDirLabel.setObjectName(u"vedioDirLabel")
 
         self.CatchVedioDirLayout.addWidget(self.vedioDirLabel)
 
-        self.vedioDirShowLineEdit = QLineEdit(self.layoutWidget)
+        self.vedioDirShowLineEdit = QLineEdit(self.centralwidget)
         self.vedioDirShowLineEdit.setObjectName(u"vedioDirShowLineEdit")
         self.vedioDirShowLineEdit.setDragEnabled(True)
         self.vedioDirShowLineEdit.setClearButtonEnabled(True)
 
         self.CatchVedioDirLayout.addWidget(self.vedioDirShowLineEdit)
 
-        self.selectVedioDirBtn = QPushButton(self.layoutWidget)
+        self.selectVedioDirBtn = QPushButton(self.centralwidget)
         self.selectVedioDirBtn.setObjectName(u"selectVedioDirBtn")
 
         self.CatchVedioDirLayout.addWidget(self.selectVedioDirBtn)
 
-        self.layoutWidget1 = QWidget(self.centralwidget)
-        self.layoutWidget1.setObjectName(u"layoutWidget1")
-        self.layoutWidget1.setGeometry(QRect(500, 40, 295, 31))
-        self.horizontalLayout_2 = QHBoxLayout(self.layoutWidget1)
+
+        self.verticalLayout.addLayout(self.CatchVedioDirLayout)
+
+        self.horizontalLayout = QHBoxLayout()
+        self.horizontalLayout.setObjectName(u"horizontalLayout")
+        self.goBackBtn = QPushButton(self.centralwidget)
+        self.goBackBtn.setObjectName(u"goBackBtn")
+
+        self.horizontalLayout.addWidget(self.goBackBtn)
+
+        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout.addItem(self.horizontalSpacer)
+
+        self.horizontalLayout_2 = QHBoxLayout()
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
-        self.completeFileBtn = QPushButton(self.layoutWidget1)
+        self.completeFileBtn = QPushButton(self.centralwidget)
         self.completeFileBtn.setObjectName(u"completeFileBtn")
 
         self.horizontalLayout_2.addWidget(self.completeFileBtn)
 
-        self.selectAllBtn = QPushButton(self.layoutWidget1)
+        self.selectAllBtn = QPushButton(self.centralwidget)
         self.selectAllBtn.setObjectName(u"selectAllBtn")
 
         self.horizontalLayout_2.addWidget(self.selectAllBtn)
 
-        self.refreshBtn = QPushButton(self.layoutWidget1)
+        self.refreshBtn = QPushButton(self.centralwidget)
         self.refreshBtn.setObjectName(u"refreshBtn")
 
         self.horizontalLayout_2.addWidget(self.refreshBtn)
 
-        self.layoutWidget2 = QWidget(self.centralwidget)
-        self.layoutWidget2.setObjectName(u"layoutWidget2")
-        self.layoutWidget2.setGeometry(QRect(300, 520, 195, 31))
-        self.horizontalLayout_3 = QHBoxLayout(self.layoutWidget2)
+
+        self.horizontalLayout.addLayout(self.horizontalLayout_2)
+
+
+        self.verticalLayout.addLayout(self.horizontalLayout)
+
+        self.dataTableWidget = QTableWidget(self.centralwidget)
+        self.dataTableWidget.setObjectName(u"dataTableWidget")
+
+        self.verticalLayout.addWidget(self.dataTableWidget)
+
+        self.horizontalLayout_3 = QHBoxLayout()
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
-        self.horizontalLayout_3.setContentsMargins(0, 0, 0, 0)
-        self.getMP3Btn = QPushButton(self.layoutWidget2)
+        self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout_3.addItem(self.horizontalSpacer_2)
+
+        self.getMP3Btn = QPushButton(self.centralwidget)
         self.getMP3Btn.setObjectName(u"getMP3Btn")
 
         self.horizontalLayout_3.addWidget(self.getMP3Btn)
 
-        self.mergeBtn = QPushButton(self.layoutWidget2)
+        self.mergeBtn = QPushButton(self.centralwidget)
         self.mergeBtn.setObjectName(u"mergeBtn")
 
         self.horizontalLayout_3.addWidget(self.mergeBtn)
+
+        self.horizontalSpacer_3 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout_3.addItem(self.horizontalSpacer_3)
+
+
+        self.verticalLayout.addLayout(self.horizontalLayout_3)
+
+
+        self.verticalLayout_2.addLayout(self.verticalLayout)
 
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
@@ -139,9 +164,9 @@ class Ui_MainWindow(object):
         self.helpItem.setText(QCoreApplication.translate("MainWindow", u"\u4f7f\u7528\u6559\u7a0b", None))
         self.checkUpdateItem.setText(QCoreApplication.translate("MainWindow", u"\u68c0\u6d4b\u66f4\u65b0", None))
         self.aboutItem.setText(QCoreApplication.translate("MainWindow", u"\u5173\u4e8e", None))
-        self.goBackBtn.setText(QCoreApplication.translate("MainWindow", u"\u4e0a\u4e00\u7ea7", None))
         self.vedioDirLabel.setText(QCoreApplication.translate("MainWindow", u"\u89c6\u9891\u7f13\u5b58\u76ee\u5f55:", None))
         self.selectVedioDirBtn.setText(QCoreApplication.translate("MainWindow", u"\u9009\u62e9\u76ee\u5f55", None))
+        self.goBackBtn.setText(QCoreApplication.translate("MainWindow", u"\u4e0a\u4e00\u7ea7", None))
         self.completeFileBtn.setText(QCoreApplication.translate("MainWindow", u"\u5b8c\u6210\u6587\u4ef6", None))
         self.selectAllBtn.setText(QCoreApplication.translate("MainWindow", u"\u5168\u9009", None))
         self.refreshBtn.setText(QCoreApplication.translate("MainWindow", u"\u5237\u65b0", None))

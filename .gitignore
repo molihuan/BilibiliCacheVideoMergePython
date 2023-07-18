@@ -1,0 +1,13 @@
+#忽略根目录下面的.idea文件夹
+/.idea/
+/.ropeproject/
+#忽略所有的__pycache__文件夹
+__pycache__/
+/complete/
+/packagescript/*
+!/packagescript/Run.py
+/test/py/
+/test/download/*
+!/test/download/666666/
+!/test/download/999999/
+/config.json

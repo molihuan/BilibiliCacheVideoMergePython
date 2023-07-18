@@ -1,5 +1,29 @@
+from urllib.request import urlopen
+
+from PySide6.QtCore import QObject, Signal
 from PySide6.QtGui import QPixmap
-from PySide6.QtWidgets import QWidget, QLabel, QVBoxLayout
+from PySide6.QtWidgets import QWidget, QLabel, QVBoxLayout, QTableWidget
+
+
+class ImageLoader(QObject):
+    signal = Signal(QTableWidget, int, int, QPixmap)
+
+    def __init__(self, table, image_url, row, column, parent=None):
+        super().__init__(parent)
+        self.table = table
+        self.image_url = image_url
+        self.row = row
+        self.column = column
+
+    def load(self):
+        try:
+            image_data = urlopen(self.image_url).read()
+
+            pixmap = QPixmap()
+            pixmap.loadFromData(image_data)
+            self.signal.emit(self.table, self.row, self.column, pixmap)
+        except Exception as e:
+            print(f"Error loading image: {e}")
 
 
 class MImageLabel(QWidget):

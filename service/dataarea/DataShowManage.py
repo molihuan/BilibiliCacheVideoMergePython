@@ -1,13 +1,16 @@
 import os
+import threading
 from enum import Enum
 from typing import List
 
 from PySide6.QtCore import Qt
+from PySide6.QtGui import QPixmap
 from PySide6.QtWidgets import QTableWidget, QTableWidgetItem, QMainWindow
 
 from entity.CacheInfo import CacheInfo
 from service.base.BaseService import BaseService
 from service.base.QDataMainWindow import QDataMainWindow
+from ui.MImageLabel import ImageLoader, MImageLabel
 from utils.CommonUtils import CommonUtils
 from utils.JsonUtils import JsonUtils
 from utils.PathUtils import PathUtils, CacheCompleteState
@@ -145,8 +148,19 @@ class DataShowManage(BaseService):
 
             dataItem = QTableWidgetItem(info.getPath())
             dataListWidget.setItem(realIndex, 1, dataItem)
+            # 加载封面
+            loader = ImageLoader(dataListWidget, json_info.get_cover(), realIndex, 2)
+            loader.signal.connect(self.handleImageLoaded)
+            thread = threading.Thread(target=loader.load)
+            thread.start()
 
             realIndex += 1
+
+    def handleImageLoaded(self, table, row, column, pixmap: QPixmap):
+        label = MImageLabel(pixmap, "")
+        table.setRowHeight(row, 160)
+        table.setColumnWidth(column, 220)
+        table.setCellWidget(row, column, label)
 
     def showChapterDataPage(self, collectionPath):
 
