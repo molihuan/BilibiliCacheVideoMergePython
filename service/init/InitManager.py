@@ -30,9 +30,11 @@ class InitManager(BaseService):
         dataList.setHorizontalHeaderLabels(["标题", "路径"])
         dataList.setRowCount(15)
 
+        dataList.setWordWrap(True)
+
         # 设置表头自适应宽度
         header = dataList.horizontalHeader()
-        header.setSectionResizeMode(QHeaderView.ResizeMode.ResizeToContents)
+        header.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
         # 最后一列拉伸
         # header.setStretchLastSection(True)
 
