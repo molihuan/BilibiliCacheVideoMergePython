@@ -9,9 +9,9 @@ __pycache__/
 *.spec
 /complete/
 /script/*
-!/packagescript/packagescript.py
-!/packagescript/buildqrc.py
-!/packagescript/uiConnectResources.py
+!/script/packagescript.py
+!/script/buildqrc.py
+!/script/uiConnectResources.py
 
 /test/py/
 /test/download/*
