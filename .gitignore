@@ -12,6 +12,7 @@ __pycache__/
 !/script/packagescript.py
 !/script/buildqrc.py
 !/script/uiConnectResources.py
+!/script/appDetails.py
 
 /test/py/
 /test/download/*
