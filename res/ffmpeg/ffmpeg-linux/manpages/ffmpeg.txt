@@ -657,13 +657,11 @@ OPTIONS
 	   By default the program logs to stderr. If coloring is supported by
 	   the terminal, colors are used to mark errors and warnings. Log
 	   coloring can be disabled setting the environment variable
-	   AV_LOG_FORCE_NOCOLOR or NO_COLOR, or can be forced setting the
-	   environment variable AV_LOG_FORCE_COLOR.  The use of the
-	   environment variable NO_COLOR is deprecated and will be dropped in
-	   a future FFmpeg version.
+	   AV_LOG_FORCE_NOCOLOR, or can be forced setting the environment
+	   variable AV_LOG_FORCE_COLOR.
 
        -report
-	   Dump full command line and console output to a file named
+	   Dump full command line and log output to a file named
 	   "program-YYYYMMDD-HHMMSS.log" in the current directory.  This file
 	   can be useful for bug reports.  It also implies "-loglevel debug".
 
@@ -1240,49 +1238,67 @@ OPTIONS
 
        -force_key_frames[:stream_specifier] time[,time...] (output,per-stream)
        -force_key_frames[:stream_specifier] expr:expr (output,per-stream)
-	   Force key frames at the specified timestamps, more precisely at the
-	   first frames after each specified time.
+       -force_key_frames[:stream_specifier] source (output,per-stream)
+	   force_key_frames can take arguments of the following form:
 
-	   If the argument is prefixed with "expr:", the string expr is
-	   interpreted like an expression and is evaluated for each frame. A
-	   key frame is forced in case the evaluation is non-zero.
+	   time[,time...]
+	       If the argument consists of timestamps, ffmpeg will round the
+	       specified times to the nearest output timestamp as per the
+	       encoder time base and force a keyframe at the first frame
+	       having timestamp equal or greater than the computed timestamp.
+	       Note that if the encoder time base is too coarse, then the
+	       keyframes may be forced on frames with timestamps lower than
+	       the specified time.  The default encoder time base is the
+	       inverse of the output framerate but may be set otherwise via
+	       "-enc_time_base".
 
-	   If one of the times is ""chapters"[delta]", it is expanded into the
-	   time of the beginning of all chapters in the file, shifted by
-	   delta, expressed as a time in seconds.  This option can be useful
-	   to ensure that a seek point is present at a chapter mark or any
-	   other designated place in the output file.
+	       If one of the times is ""chapters"[delta]", it is expanded into
+	       the time of the beginning of all chapters in the file, shifted
+	       by delta, expressed as a time in seconds.  This option can be
+	       useful to ensure that a seek point is present at a chapter mark
+	       or any other designated place in the output file.
 
-	   For example, to insert a key frame at 5 minutes, plus key frames
-	   0.1 second before the beginning of every chapter:
+	       For example, to insert a key frame at 5 minutes, plus key
+	       frames 0.1 second before the beginning of every chapter:
 
-		   -force_key_frames 0:05:00,chapters-0.1
+		       -force_key_frames 0:05:00,chapters-0.1
 
-	   The expression in expr can contain the following constants:
+	   expr:expr
+	       If the argument is prefixed with "expr:", the string expr is
+	       interpreted like an expression and is evaluated for each frame.
+	       A key frame is forced in case the evaluation is non-zero.
 
-	   n   the number of current processed frame, starting from 0
+	       The expression in expr can contain the following constants:
 
-	   n_forced
-	       the number of forced frames
+	       n   the number of current processed frame, starting from 0
 
-	   prev_forced_n
-	       the number of the previous forced frame, it is "NAN" when no
-	       keyframe was forced yet
+	       n_forced
+		   the number of forced frames
 
-	   prev_forced_t
-	       the time of the previous forced frame, it is "NAN" when no
-	       keyframe was forced yet
+	       prev_forced_n
+		   the number of the previous forced frame, it is "NAN" when
+		   no keyframe was forced yet
 
-	   t   the time of the current processed frame
+	       prev_forced_t
+		   the time of the previous forced frame, it is "NAN" when no
+		   keyframe was forced yet
 
-	   For example to force a key frame every 5 seconds, you can specify:
+	       t   the time of the current processed frame
 
-		   -force_key_frames expr:gte(t,n_forced*5)
+	       For example to force a key frame every 5 seconds, you can
+	       specify:
 
-	   To force a key frame 5 seconds after the time of the last forced
-	   one, starting from second 13:
+		       -force_key_frames expr:gte(t,n_forced*5)
 
-		   -force_key_frames expr:if(isnan(prev_forced_t),gte(t,13),gte(t,prev_forced_t+5))
+	       To force a key frame 5 seconds after the time of the last
+	       forced one, starting from second 13:
+
+		       -force_key_frames expr:if(isnan(prev_forced_t),gte(t,13),gte(t,prev_forced_t+5))
+
+	   source
+	       If the argument is "source", ffmpeg will force a key frame if
+	       the current frame being encoded is marked as a key frame in its
+	       source.
 
 	   Note that forcing too many keyframes is very harmful for the
 	   lookahead algorithms of certain encoders: using fixed-GOP options
@@ -1370,6 +1386,43 @@ OPTIONS
 	       opencl:1,device_type=gpu,device_extensions=cl_khr_fp16
 		   Choose the GPU device on the second platform supporting the
 		   cl_khr_fp16 extension.
+
+	   vulkan
+	       If device is an integer, it selects the device by its index in
+	       a system-dependent list of devices.  If device is any other
+	       string, it selects the first device with a name containing that
+	       string as a substring.
+
+	       The following options are recognized:
+
+	       debug
+		   If set to 1, enables the validation layer, if installed.
+
+	       linear_images
+		   If set to 1, images allocated by the hwcontext will be
+		   linear and locally mappable.
+
+	       instance_extensions
+		   A plus separated list of additional instance extensions to
+		   enable.
+
+	       device_extensions
+		   A plus separated list of additional device extensions to
+		   enable.
+
+	       Examples:
+
+	       -init_hw_device vulkan:1
+		   Choose the second device on the system.
+
+	       -init_hw_device vulkan:RADV
+		   Choose the first device with a name containing the string
+		   RADV.
+
+	       -init_hw_device
+	       vulkan:0,instance_extensions=VK_KHR_wayland_surface+VK_KHR_xcb_surface
+		   Choose the first device and enable the Wayland and XCB
+		   instance extensions.
 
        -init_hw_device type[=name]@source
 	   Initialise a new hardware device of type type called name, deriving
@@ -1742,7 +1795,8 @@ OPTIONS
 	   encode/decode).
 
        -timelimit duration (global)
-	   Exit after ffmpeg has been running for duration seconds.
+	   Exit after ffmpeg has been running for duration seconds in CPU user
+	   time.
 
        -dump (global)
 	   Dump each input packet to stderr.
@@ -1882,6 +1936,11 @@ OPTIONS
 
        -dts_delta_threshold
 	   Timestamp discontinuity delta threshold.
+
+       -dts_error_threshold seconds
+	   Timestamp error delta threshold. This threshold use to discard
+	   crazy/damaged timestamps and the default is 30 hours which is
+	   arbitrarily picked and quite conservative.
 
        -muxdelay seconds (output)
 	   Set the maximum demux-decode delay.
@@ -2032,6 +2091,10 @@ OPTIONS
 
 	   empty_output
 	       No packets were passed to the muxer, the output is empty.
+
+	   empty_output_stream
+	       No packets were passed to the muxer in some of the output
+	       streams.
 
        -xerror (global)
 	   Stop and exit on error

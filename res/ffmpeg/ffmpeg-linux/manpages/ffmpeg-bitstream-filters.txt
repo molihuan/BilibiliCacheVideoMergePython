@@ -197,6 +197,10 @@ BITSTREAM FILTERS
        sample_aspect_ratio
 	   Set the sample aspect ratio of the stream in the VUI parameters.
 
+       overscan_appropriate_flag
+	   Set whether the stream is suitable for display using overscan or
+	   not (see H.264 section E.2.1).
+
        video_format
        video_full_range_flag
 	   Set the video format in the stream (see H.264 section E.2.1 and
@@ -481,6 +485,35 @@ BITSTREAM FILTERS
    null
        This bitstream filter passes the packets through unchanged.
 
+   pcm_rechunk
+       Repacketize PCM audio to a fixed number of samples per packet or a
+       fixed packet rate per second. This is similar to the asetnsamples audio
+       filter but works on audio packets instead of audio frames.
+
+       nb_out_samples, n
+	   Set the number of samples per each output audio packet. The number
+	   is intended as the number of samples per each channel. Default
+	   value is 1024.
+
+       pad, p
+	   If set to 1, the filter will pad the last audio packet with
+	   silence, so that it will contain the same number of samples (or
+	   roughly the same number of samples, see frame_rate) as the previous
+	   ones. Default value is 1.
+
+       frame_rate, r
+	   This option makes the filter output a fixed number of packets per
+	   second instead of a fixed number of samples per packet. If the
+	   audio sample rate is not divisible by the frame rate then the
+	   number of samples will not be constant but will vary slightly so
+	   that each packet will start as close to the frame boundary as
+	   possible. Using this option has precedence over nb_out_samples.
+
+       You can generate the well known 1602-1601-1602-1601-1602 pattern of
+       48kHz audio for NTSC frame rate using the frame_rate option.
+
+	       ffmpeg -f lavfi -i sine=r=48000:d=1 -c pcm_s16le -bsf pcm_rechunk=r=30000/1001 -f framecrc -
+
    prores_metadata
        Modify color property metadata embedded in prores stream.
 
@@ -515,11 +548,17 @@ BITSTREAM FILTERS
 	   bt709
 	       BT 601, BT 709, BT 2020
 
+	   smpte2084
+	       SMPTE ST 2084
+
+	   arib-std-b67
+	       ARIB STD-B67
+
        matrix_coefficients
 	   Set the matrix coefficient.	Available values are:
 
 	   auto
-	       Keep the same transfer characteristics property (default).
+	       Keep the same colorspace property (default).
 
 	   unknown
 	   bt709
@@ -531,6 +570,10 @@ BITSTREAM FILTERS
        Set Rec709 colorspace for each frame of the file
 
 	       ffmpeg -i INPUT -c copy -bsf:v prores_metadata=color_primaries=bt709:color_trc=bt709:colorspace=bt709 output.mov
+
+       Set Hybrid Log-Gamma parameters for each frame of the file
+
+	       ffmpeg -i INPUT -c copy -bsf:v prores_metadata=color_primaries=bt2020:color_trc=arib-std-b67:colorspace=bt2020nc output.mov
 
    remove_extra
        Remove extradata from packets.
@@ -569,7 +612,9 @@ BITSTREAM FILTERS
        Modify metadata embedded in a VP9 stream.
 
        color_space
-	   Set the color space value in the frame header.
+	   Set the color space value in the frame header.  Note that any frame
+	   set to RGB will be implicitly set to PC range and that RGB is
+	   incompatible with profiles 0 and 2.
 
 	   unknown
 	   bt601
@@ -579,8 +624,8 @@ BITSTREAM FILTERS
 	   bt2020
 	   rgb
        color_range
-	   Set the color range value in the frame header.  Note that this
-	   cannot be set in RGB streams.
+	   Set the color range value in the frame header.  Note that any value
+	   imposed by the color space will take precedence over this value.
 
 	   tv
 	   pc

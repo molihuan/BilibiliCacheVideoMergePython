@@ -68,6 +68,8 @@ CODEC OPTIONS
 	       Set error[?] variables during encoding.
 
 	   truncated
+	       Input bitstream might be randomly truncated.
+
 	   drop_changed
 	       Don't output frames whose parameters differ from first decoded
 	       frame in stream.  Error AVERROR_INPUT_CHANGED is returned when
@@ -100,6 +102,9 @@ CODEC OPTIONS
 
 	   cgop
 	       Use closed gop.
+
+	   output_corrupt
+	       Output even potentially corrupted frames.
 
        me_method integer (encoding,video)
 	   Set motion estimation method.
@@ -661,6 +666,29 @@ CODEC OPTIONS
        dia_size integer (encoding,video)
 	   Set diamond type & size for motion estimation.
 
+	   (1024, INT_MAX)
+	       full motion estimation(slowest)
+
+	   (768, 1024]
+	       umh motion estimation
+
+	   (512, 768]
+	       hex motion estimation
+
+	   (256, 512]
+	       l2s diamond motion estimation
+
+	   [2,256]
+	       var diamond motion estimation
+
+	   (-1,  2)
+	       small diamond motion estimation
+
+	   -1  funny diamond motion estimation
+
+	   (INT_MIN, -1)
+	       sab diamond motion estimation
+
        last_pred integer (encoding,video)
 	   Set amount of motion predictors from the previous frame.
 
@@ -772,14 +800,11 @@ CODEC OPTIONS
 	   Set number of bits which should be loaded into the rc buffer before
 	   decoding starts.
 
-       flags2 flags (decoding/encoding,audio,video)
+       flags2 flags (decoding/encoding,audio,video,subtitles)
 	   Possible values:
 
 	   fast
 	       Allow non spec compliant speedup tricks.
-
-	   sgop
-	       Deprecated, use mpegvideo private options instead.
 
 	   noout
 	       Skip bitstream encoding.
@@ -800,6 +825,24 @@ CODEC OPTIONS
 	       Export motion vectors into frame side-data (see
 	       "AV_FRAME_DATA_MOTION_VECTORS") for codecs that support it. See
 	       also doc/examples/export_mvs.c.
+
+	   skip_manual
+	       Do not skip samples and export skip information as frame side
+	       data.
+
+	   ass_ro_flush_noop
+	       Do not reset ASS ReadOrder field on flush.
+
+       export_side_data flags (decoding/encoding,audio,video,subtitles)
+	   Possible values:
+
+	   mvs Export motion vectors into frame side-data (see
+	       "AV_FRAME_DATA_MOTION_VECTORS") for codecs that support it. See
+	       also doc/examples/export_mvs.c.
+
+	   prft
+	       Export encoder Producer Reference Time into packet side-data
+	       (see "AV_PKT_DATA_PRFT") for codecs that support it.
 
        error integer (encoding,video)
        qns integer (encoding,video)
@@ -835,28 +878,10 @@ CODEC OPTIONS
 	   Set number of macroblock rows at the bottom which are skipped.
 
        profile integer (encoding,audio,video)
-	   Possible values:
+	   Set encoder codec profile. Default value is unknown. Encoder
+	   specific profiles are documented in the relevant encoder
+	   documentation.
 
-	   unknown
-	   aac_main
-	   aac_low
-	   aac_ssr
-	   aac_ltp
-	   aac_he
-	   aac_he_v2
-	   aac_ld
-	   aac_eld
-	   mpeg2_aac_low
-	   mpeg2_aac_he
-	   mpeg4_sp
-	   mpeg4_core
-	   mpeg4_main
-	   mpeg4_asp
-	   dts
-	   dts_es
-	   dts_96_24
-	   dts_hd_hra
-	   dts_hd_ma
        level integer (encoding,audio,video)
 	   Possible values:
 
@@ -1298,7 +1323,7 @@ VIDEO DECODERS
 
        Options
 
-       The following option is supported by the libdav1d wrapper.
+       The following options are supported by the libdav1d wrapper.
 
        framethreads
 	   Set amount of frame threads to use during decoding. The default
@@ -1310,7 +1335,15 @@ VIDEO DECODERS
 
        filmgrain
 	   Apply film grain to the decoded video if present in the bitstream.
-	   The default value is true.
+	   Defaults to the internal default of the library.
+
+       oppoint
+	   Select an operating point of a scalable AV1 bitstream (0 - 31).
+	   Defaults to the internal default of the library.
+
+       alllayers
+	   Output all spatial layers of a scalable AV1 bitstream. The default
+	   value is false.
 
    libdavs2
        AVS2-P2/IEEE1857.4 video decoder wrapper.
@@ -1486,7 +1519,7 @@ SUBTITLES DECODERS
 	   files.
 
 	   The format for this option is a string containing 16 24-bits
-	   hexadecimal numbers (without 0x prefix) separated by comas, for
+	   hexadecimal numbers (without 0x prefix) separated by commas, for
 	   example "0d00ee, ee450d, 101010, eaeaea, 0ce60b, ec14ed, ebff0b,
 	   0d617a, 7b7b7b, d1d1d1, 7b2a0e, 0d950c, 0f007b, cf0dec, cfa80c,
 	   7c127b".
@@ -1513,6 +1546,13 @@ SUBTITLES DECODERS
 	   the specified list are dropped. You may use the special "*" string
 	   to match all pages, or "subtitle" to match all subtitle pages.
 	   Default value is *.
+
+       txt_default_region
+	   Set default character set used for decoding, a value between 0 and
+	   87 (see ETS 300 706, Section 15, Table 32). Default value is -1,
+	   which does not override the libzvbi default. This option is needed
+	   for some legacy level 1.0 transmissions which cannot signal the
+	   proper charset.
 
        txt_chop_top
 	   Discards the top teletext line. Default value is 1.
@@ -1587,11 +1627,7 @@ AUDIO ENCODERS
        Advanced Audio Coding (AAC) encoder.
 
        This encoder is the default AAC encoder, natively implemented into
-       FFmpeg. Its quality is on par or better than libfdk_aac at the default
-       bitrate of 128kbps.  This encoder also implements more options,
-       profiles and samplerates than other encoders (with only the AAC-HE
-       profile pending to be implemented) so this encoder has become the
-       default and is the recommended choice.
+       FFmpeg.
 
        Options
 
@@ -2182,10 +2218,7 @@ AUDIO ENCODERS
        you allow the use of GPL, you should configure with "--enable-gpl
        --enable-nonfree --enable-libfdk-aac".
 
-       This encoder is considered to produce output on par or worse at 128kbps
-       to the the native FFmpeg AAC encoder but can often produce better
-       sounding audio at identical or lower bitrates and has support for the
-       AAC-HE profiles.
+       This encoder has support for the AAC-HE profiles.
 
        VBR encoding, enabled through the vbr or flags +qscale options, is
        experimental and only works with some combinations of parameters.
@@ -2819,6 +2852,44 @@ VIDEO ENCODERS
 	   Can be set to either "j2k" or "jp2" (the default) that makes it
 	   possible to store non-rgb pix_fmts.
 
+   librav1e
+       rav1e AV1 encoder wrapper.
+
+       Requires the presence of the rav1e headers and library during
+       configuration.  You need to explicitly configure the build with
+       "--enable-librav1e".
+
+       Options
+
+       qmax
+	   Sets the maximum quantizer to use when using bitrate mode.
+
+       qmin
+	   Sets the minimum quantizer to use when using bitrate mode.
+
+       qp  Uses quantizer mode to encode at the given quantizer (0-255).
+
+       speed
+	   Selects the speed preset (0-10) to encode with.
+
+       tiles
+	   Selects how many tiles to encode with.
+
+       tile-rows
+	   Selects how many rows of tiles to encode with.
+
+       tile-columns
+	   Selects how many columns of tiles to encode with.
+
+       rav1e-params
+	   Set rav1e options using a list of key=value pairs separated by ":".
+	   See rav1e --help for a list of options.
+
+	   For example to specify librav1e encoding options with
+	   -rav1e-params:
+
+		   ffmpeg -i input -c:v librav1e -b:v 500K -rav1e-params speed=5:low_latency=true output.mp4
+
    libaom-av1
        libaom AV1 encoder wrapper.
 
@@ -2896,6 +2967,12 @@ VIDEO ENCODERS
 	   cyclic (3)
 	       Cyclic refresh.
 
+       tune (tune)
+	   Set the distortion metric the encoder is tuned with. Default is
+	   "psnr".
+
+	   psnr (0)
+	   ssim (1)
        lag-in-frames
 	   Set the maximum number of frames which the encoder may keep in
 	   flight at any one time for lookahead purposes.  Defaults to the
@@ -2976,6 +3053,9 @@ VIDEO ENCODERS
        enable-cdef (boolean)
 	   Enable Constrained Directional Enhancement Filter. The libaom-av1
 	   encoder enables CDEF by default.
+
+       enable-restoration (boolean)
+	   Enable Loop Restoration Filter. Default is true for libaom-av1.
 
        enable-global-motion (boolean)
 	   Enable the use of global motion for block prediction. Default is
@@ -3241,36 +3321,62 @@ VIDEO ENCODERS
 	   Increase sharpness at the expense of lower PSNR.  The valid range
 	   is [0, 7].
 
-       VP8-specific options
-	   ts-parameters
-	       Sets the temporal scalability configuration using a :-separated
-	       list of key=value pairs. For example, to specify temporal
-	       scalability parameters with "ffmpeg":
+       ts-parameters
+	   Sets the temporal scalability configuration using a :-separated
+	   list of key=value pairs. For example, to specify temporal
+	   scalability parameters with "ffmpeg":
 
-		       ffmpeg -i INPUT -c:v libvpx -ts-parameters ts_number_layers=3:\
-		       ts_target_bitrate=250000,500000,1000000:ts_rate_decimator=4,2,1:\
-		       ts_periodicity=4:ts_layer_id=0,2,1,2 OUTPUT
+		   ffmpeg -i INPUT -c:v libvpx -ts-parameters ts_number_layers=3:\
+		   ts_target_bitrate=250,500,1000:ts_rate_decimator=4,2,1:\
+		   ts_periodicity=4:ts_layer_id=0,2,1,2:ts_layering_mode=3 OUTPUT
 
-	       Below is a brief explanation of each of the parameters, please
-	       refer to "struct vpx_codec_enc_cfg" in "vpx/vpx_encoder.h" for
-	       more details.
+	   Below is a brief explanation of each of the parameters, please
+	   refer to "struct vpx_codec_enc_cfg" in "vpx/vpx_encoder.h" for more
+	   details.
 
-	       ts_number_layers
-		   Number of temporal coding layers.
+	   ts_number_layers
+	       Number of temporal coding layers.
 
-	       ts_target_bitrate
-		   Target bitrate for each temporal layer.
+	   ts_target_bitrate
+	       Target bitrate for each temporal layer (in kbps).  (bitrate
+	       should be inclusive of the lower temporal layer).
 
-	       ts_rate_decimator
-		   Frame rate decimation factor for each temporal layer.
+	   ts_rate_decimator
+	       Frame rate decimation factor for each temporal layer.
 
-	       ts_periodicity
-		   Length of the sequence defining frame temporal layer
-		   membership.
+	   ts_periodicity
+	       Length of the sequence defining frame temporal layer
+	       membership.
 
-	       ts_layer_id
-		   Template defining the membership of frames to temporal
-		   layers.
+	   ts_layer_id
+	       Template defining the membership of frames to temporal layers.
+
+	   ts_layering_mode
+	       (optional) Selecting the temporal structure from a set of pre-
+	       defined temporal layering modes.  Currently supports the
+	       following options.
+
+	       0   No temporal layering flags are provided internally, relies
+		   on flags being passed in using "metadata" field in
+		   "AVFrame" with following keys.
+
+		   vp8-flags
+		       Sets the flags passed into the encoder to indicate the
+		       referencing scheme for the current frame.  Refer to
+		       function "vpx_codec_encode" in "vpx/vpx_encoder.h" for
+		       more details.
+
+		   temporal_id
+		       Explicitly sets the temporal id of the current frame to
+		       encode.
+
+	       2   Two temporal layers. 0-1...
+
+	       3   Three temporal layers. 0-2-1-2...; with single reference
+		   frame.
+
+	       4   Same as option "3", except there is a dependency between
+		   the two temporal layer 2 frames within the temporal period.
 
        VP9-specific options
 	   lossless
@@ -3765,6 +3871,18 @@ VIDEO ENCODERS
 
        Options
 
+       b   Sets target video bitrate.
+
+       bf
+       g   Set the GOP size.
+
+       keyint_min
+	   Minimum GOP size.
+
+       refs
+	   Number of reference frames each P-frame can use. The range is from
+	   1-16.
+
        preset
 	   Set the x265 preset.
 
@@ -3776,6 +3894,25 @@ VIDEO ENCODERS
 
        crf Set the quality for constant quality mode.
 
+       qp  Set constant quantization rate control method parameter.
+
+       qmin
+	   Minimum quantizer scale.
+
+       qmax
+	   Maximum quantizer scale.
+
+       qdiff
+	   Maximum difference between quantizer scales.
+
+       qblur
+	   Quantizer curve blur
+
+       qcomp
+	   Quantizer curve compression factor
+
+       i_qfactor
+       b_qfactor
        forced-idr
 	   Normally, when forcing a I-frame type, the encoder can select any
 	   type of I-frame. This option forces it to choose an IDR-frame.
@@ -3967,11 +4104,29 @@ VIDEO ENCODERS
 	   0-4, while 0 gives the most accurate result and 4 computes the
 	   fastest.
 
+   MediaFoundation
+       This provides wrappers to encoders (both audio and video) in the
+       MediaFoundation framework. It can access both SW and HW encoders.
+       Video encoders can take input in either of nv12 or yuv420p form (some
+       encoders support both, some support only either - in practice, nv12 is
+       the safer choice, especially among HW encoders).
+
    mpeg2
        MPEG-2 video encoder.
 
        Options
 
+       profile integer
+	   Select the mpeg2 profile to encode:
+
+	   422
+	   main
+	   ss  Spatially Scalable
+
+	   snr SNR Scalable
+
+	   high
+	   simple
        seq_disp_ext integer
 	   Specifies if the encoder should write a sequence_display_extension
 	   to the output.
@@ -4074,7 +4229,8 @@ VIDEO ENCODERS
        recommended value) and do not set a size constraint.
 
    QSV encoders
-       The family of Intel QuickSync Video encoders (MPEG-2, H.264 and HEVC)
+       The family of Intel QuickSync Video encoders (MPEG-2, H.264, HEVC,
+       JPEG/MJPEG and VP9)
 
        The ratecontrol method is selected as follows:
 
@@ -4398,6 +4554,15 @@ SUBTITLES ENCODERS
        they can also be used in Matroska files.
 
        Options
+
+       palette
+	   Specify the global palette used by the bitmaps.
+
+	   The format for this option is a string containing 16 24-bits
+	   hexadecimal numbers (without 0x prefix) separated by commas, for
+	   example "0d00ee, ee450d, 101010, eaeaea, 0ce60b, ec14ed, ebff0b,
+	   0d617a, 7b7b7b, d1d1d1, 7b2a0e, 0d950c, 0f007b, cf0dec, cfa80c,
+	   7c127b".
 
        even_rows_fix
 	   When set to 1, enable a work-around that makes the number of pixel

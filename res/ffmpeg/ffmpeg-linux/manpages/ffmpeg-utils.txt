@@ -99,6 +99,14 @@ SYNTAX
 
        55  55 seconds
 
+       0.2 0.2 seconds
+
+       200ms
+	   200 milliseconds, that's 0.2s
+
+       200000us
+	   200000 microseconds, that's 0.2s
+
        12:03:45
 	   12 hours, 03 minutes and 45 seconds
 
@@ -862,6 +870,9 @@ SYNTAX
        octagonal
 	   FL+FR+FC+BL+BR+BC+SL+SR
 
+       hexadecagonal
+	   FL+FR+FC+BL+BR+BC+SL+SR+WL+WR+TBL+TBR+TBC+TFC+TFL+TFR
+
        downmix
 	   DL+DR
 
@@ -1066,6 +1077,9 @@ EXPRESSION EVALUATION
        round(expr)
 	   Round the value of expression expr to the nearest integer. For
 	   example, "round(1.5)" is "2.0".
+
+       sgn(x)
+	   Compute sign of x.
 
        sin(x)
 	   Compute sine of x.
