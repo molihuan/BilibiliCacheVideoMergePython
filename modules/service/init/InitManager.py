@@ -2,6 +2,7 @@ import os
 
 from PySide6.QtWidgets import QHeaderView, QTableWidget
 
+from modules.utils.SysUtils import SysUtils
 from modules.service.base.BaseService import BaseService
 from modules.service.manager.ConfigManager import ConfigManager, ConfigKey
 from modules.utils.PathUtils import PathUtils
@@ -52,6 +53,9 @@ class InitManager(BaseService):
 
         sysFFmpegPath = configManager.get(ConfigKey.SYS_FFMPEG_PATH)
         context.setSysFFmpegPath(sysFFmpegPath)
+
+        # 检查ffmpeg是否有执行权限
+        SysUtils.checkFFmpegExecPermissions(sysFFmpegPath)
 
         # allPath = context.getConfigPathDict()
         # # 检查路径是否有空格

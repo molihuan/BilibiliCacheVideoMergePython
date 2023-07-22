@@ -2,22 +2,27 @@ import os
 import shutil
 import sys
 from enum import Enum
+import sys
 
 import PyInstaller.__main__
-
-from modules.utils.SysUtils import SysType, SysUtils
-from script.appDetails import APP_NAME
-
+#///////////////不能改变导入顺序///////////////////////////////
 workPath = os.getcwd()
 workParentPath = os.path.dirname(workPath)
+# 将workParentPath也设置为工作目录
+sys.path.append(workParentPath)
+from script.appDetails import APP_NAME
+from modules.utils.SysUtils import SysType, SysUtils
+#//////////////////////////////////////////////
+
+
 # 未打包路径
-ffmpegExePath = "../res/ffmpeg/ffmpeg.exe"
+ffmpegExePath = os.path.join(workParentPath,"res/ffmpeg/ffmpeg.exe")
 # 打包后的路径
 ffmpegPackageDir = "./res/ffmpeg"
 ffmpegPackageDirUpkg = "./res/ffmpeg/ffmpeg.exe"
 pythonMainPath = os.path.join(workParentPath, 'main.py')
 outputDir = os.path.join(workPath, "dist")
-icoPath = workParentPath + '/res/images/images/ml.ico'
+icoPath =os.path.join(workParentPath,'res/images/images/ml.ico')
 
 themesPath = os.path.join(workParentPath, 'themes')
 themesPackageDir = "./themes"
@@ -28,14 +33,14 @@ softName = APP_NAME + ".exe"
 def beforePkgMac():
     global ffmpegExePath
     global ffmpegPackageDirUpkg
-    ffmpegExePath = "../res/ffmpeg/ffmpeg-mac"
+    ffmpegExePath = os.path.join(workParentPath,"res/ffmpeg/ffmpeg-mac")
     ffmpegPackageDirUpkg = "./res/ffmpeg/ffmpeg-mac"
 
 
 def beforePkgLinux():
     global ffmpegExePath
     global ffmpegPackageDirUpkg
-    ffmpegExePath = "../res/ffmpeg/ffmpeg-linux"
+    ffmpegExePath = os.path.join(workParentPath, "res/ffmpeg/ffmpeg-linux")
     ffmpegPackageDirUpkg = "./res/ffmpeg/ffmpeg-linux"
 
 
@@ -52,10 +57,10 @@ def Ppkg(sysType):
         pythonMainPath,  # 指定你的Python脚本文件
         '--add-data', f'{ffmpegExePath};{ffmpegPackageDir}',  # 将ffmpeg文件复制到指定目录
         '-n', softName,
-        # 前面的顺序不要动
-        # '--add-binary', f'{ffmpegExePath};{ffmpegPackageDir}',  # 将ffmpeg文件夹复制到指定目录
-        # '--onefile',  # 打包成一个单独的可执行文件
         '--add-binary', f'{themesPath};{themesPackageDir}',
+        # 前面的顺序不要动
+        # '--add-binary', f'{ffmpegExePath}:{ffmpegPackageDir}',  # 将ffmpeg文件夹复制到指定目录
+        # '--onefile',  # 打包成一个单独的可执行文件
         '-i', icoPath,
         '--noconsole',  # 不显示控制台窗口
         '--clean',
@@ -64,8 +69,9 @@ def Ppkg(sysType):
     # 需要打包文件夹
     if sysType == SysType.LINUX:
         cmd[1] = "--add-binary"
-        cmd[2] = f'{ffmpegExePath};{ffmpegPackageDirUpkg}'
+        cmd[2] = f'{ffmpegExePath}:{ffmpegPackageDirUpkg}'
         cmd[4] = APP_NAME
+        cmd[6] = f'{themesPath}:{themesPackageDir}'
 
     PyInstaller.__main__.run(cmd)
 
@@ -145,7 +151,6 @@ if __name__ == "__main__":
     print(
         f"请选择打包方式:\n{PkgType.PYINSTALLER_PKG.value}.PyInstaller\n{PkgType.NUITKA.value}.Nuitka\n{PkgType.NON.value}.什么也不做\n请输入前面的序号:")
     inType = int(input())
-
     # sysType = SysType.MAC
     # sysType = SysType.LINUX
     if inType == PkgType.NON.value:

@@ -17,7 +17,7 @@ class FFmpegUtils(BaseService):
         if blvPathList is None:
             audioPath = cacheInfo.getAudioPath()
             videoPath = cacheInfo.getVideoPath()
-            
+
             cmd = f"{ffmpegPath} -i {audioPath} -i {videoPath} -c copy -y {outputAllPath}"
         else:
             srcDir = os.path.dirname(blvPathList[0])
@@ -37,5 +37,7 @@ class FFmpegUtils(BaseService):
 
         if return_code == 0:
             return True
+        elif return_code == 126:
+            print("ffmpeg没有权限")
         else:
             return False
