@@ -6,6 +6,7 @@ from enum import Enum
 import PyInstaller.__main__
 
 from modules.utils.SysUtils import SysType, SysUtils
+from script.appDetails import APP_NAME
 
 workPath = os.getcwd()
 workParentPath = os.path.dirname(workPath)
@@ -21,7 +22,7 @@ icoPath = workParentPath + '/res/images/images/ml.ico'
 themesPath = os.path.join(workParentPath, 'themes')
 themesPackageDir = "./themes"
 
-exeName = "HLB站缓存合并工具.exe"
+softName = APP_NAME + ".exe"
 
 
 def beforePkgMac():
@@ -50,11 +51,12 @@ def Ppkg(sysType):
     cmd = [
         pythonMainPath,  # 指定你的Python脚本文件
         '--add-data', f'{ffmpegExePath};{ffmpegPackageDir}',  # 将ffmpeg文件复制到指定目录
+        '-n', softName,
+        # 前面的顺序不要动
         # '--add-binary', f'{ffmpegExePath};{ffmpegPackageDir}',  # 将ffmpeg文件夹复制到指定目录
         # '--onefile',  # 打包成一个单独的可执行文件
         '--add-binary', f'{themesPath};{themesPackageDir}',
         '-i', icoPath,
-        '-n', exeName,
         '--noconsole',  # 不显示控制台窗口
         '--clean',
         '--distpath', outputDir
@@ -63,6 +65,7 @@ def Ppkg(sysType):
     if sysType == SysType.LINUX:
         cmd[1] = "--add-binary"
         cmd[2] = f'{ffmpegExePath};{ffmpegPackageDirUpkg}'
+        cmd[4] = APP_NAME
 
     PyInstaller.__main__.run(cmd)
 
@@ -72,11 +75,12 @@ def Npkg(sysType):
     cmd = [
         'nuitka',
         f'--include-data-files={ffmpegExePath}={ffmpegPackageDirUpkg}',
+        '-o', softName,
+        # 前面的顺序不要动
         # f'--include-data-dir={ffmpegExePath}={ffmpegPackageDirUpkg}',
         # '--onefile'# 打包成一个单独的可执行文件
         f'--include-data-dir={themesPath}={themesPackageDir}',
         '--output-dir=' + outputDir,
-        '-o ' + exeName,
         '--windows-icon-from-ico=' + icoPath,
         '--remove-output',
         '--standalone',  # 独立环境
@@ -90,6 +94,7 @@ def Npkg(sysType):
     # 需要打包文件夹
     if sysType == SysType.LINUX:
         cmd[1] = f'--include-data-dir={ffmpegExePath}={ffmpegPackageDirUpkg}'
+        cmd[3] = APP_NAME
 
     allstr = ''
     for item in cmd:

@@ -28,6 +28,7 @@ from modules.service.manager.ConfigManager import ConfigManager, ConfigKey
 from modules.utils.SysUtils import SysUtils, SysType
 from modules.widgets.WorkPage import WorkPage
 from modules.widgets.settings.BaseSettingsPage import BaseSettingsPage
+from script.appDetails import APP_NAME, APP_VERSION
 
 os.environ["QT_FONT_DPI"] = "96"  # FIX Problem for High DPI and Scale above 100%
 
@@ -35,9 +36,7 @@ os.environ["QT_FONT_DPI"] = "96"  # FIX Problem for High DPI and Scale above 100
 # ///////////////////////////////////////////////////////////////
 widgets = None
 
-
-# 运行前的脚本
-# /////////////////////////////////////////////////////
+appVersion = None
 
 
 class MainWindow(QMainWindow):
@@ -66,13 +65,14 @@ class MainWindow(QMainWindow):
         else:
             Settings.ENABLE_CUSTOM_TITLE_BAR = False
 
-        # APP NAME
+        # APP 名称和版本
         # ///////////////////////////////////////////////////////////////
-        title = "HLB站缓存合并工具"
-        description = "HLB站缓存合并工具"
+        appName = APP_NAME
+        description = APP_NAME
         # APPLY TEXTS
-        self.setWindowTitle(title)
+        self.setWindowTitle(appName)
         widgets.titleRightInfo.setText(description)
+        widgets.version.setText(APP_VERSION)
 
         # TOGGLE MENU
         # ///////////////////////////////////////////////////////////////
