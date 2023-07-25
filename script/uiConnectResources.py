@@ -38,7 +38,7 @@ class UiResource():
 
         # 替换或添加import语句
         file_modified = False
-        for line in fileinput.input(filePath, inplace=True, backup='.bak'):
+        for line in fileinput.input(filePath, inplace=True):
             if search_text in line:
                 line = line.replace(search_text, replace_text, 1)
                 file_modified = True
@@ -53,5 +53,5 @@ class UiResource():
 
 # 链接ui和资源文件脚本
 if __name__ == "__main__":
-    UiResource.doConnect('../modules/ui_main.py')
+    UiResource.doConnect('../modules/framework/ui_main.py')
     # UiResource.useCosumeWidget('../modules/ui_main.py')

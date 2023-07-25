@@ -5,10 +5,13 @@ import re
 import string
 import time
 
-from modules.entity.CacheInfo import CacheInfo
-from modules.entity.JsonInfo import JsonInfo
+
 
 # 去除一些特殊的字符的正则表达式 /r去换行
+from modules.home.entity.CacheInfo import CacheInfo
+from modules.home.entity.JsonInfo import JsonInfo
+from modules.utils.Log import Log
+
 SPECIAL_CHARACTERS_REGULAR_RULE = "[\t\r\n`~!@#$%^&*()+=|{}':;',\\[\\].<>/?~！_@#￥%……&*·（）\\\\——+|{}【】 ️ 《》\"‘；：”“’。， 、？-]*"
 
 
@@ -131,11 +134,11 @@ class JsonUtils:
                 subTitle = re.sub(SPECIAL_CHARACTERS_REGULAR_RULE, '', subTitle)
             else:
                 subTitle = JsonUtils.generate_short_id()
-            
+
             return JsonInfo(title, subTitle, bvid, avid, cid, cover)
 
         except json.JSONDecodeError as e:
-            print(f"JSON decoding error: {e}")
+            Log.i(f"JSON decoding error: {e}")
             return JsonUtils.getUUIDJson()
 
     @staticmethod
@@ -158,4 +161,4 @@ if __name__ == "__main__":
     title = "咬人猫x咬人喵胭脂❤️我的姐姐不可能这么撩人国风单曲"
     title = re.sub(SPECIAL_CHARACTERS_REGULAR_RULE, '', title)
 
-    print(title)
+    Log.i(title)

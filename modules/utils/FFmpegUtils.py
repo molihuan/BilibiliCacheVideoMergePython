@@ -1,8 +1,9 @@
 import os
 import subprocess
 
-from modules.entity.CacheInfo import CacheInfo
-from modules.service.base.BaseService import BaseService
+from modules.home.base.BaseService import BaseService
+from modules.home.entity.CacheInfo import CacheInfo
+from modules.utils.Log import Log
 
 
 class FFmpegUtils(BaseService):
@@ -29,7 +30,7 @@ class FFmpegUtils(BaseService):
 
             cmd = f"{ffmpegPath} -f concat -safe 0 -i {blvTxtPath} -c copy -y {outputAllPath}"
 
-        print(cmd)
+        Log.i(cmd)
 
         process = subprocess.Popen(cmd, shell=True)
         process.wait()  # 等待命令执行完成
@@ -38,6 +39,6 @@ class FFmpegUtils(BaseService):
         if return_code == 0:
             return True
         elif return_code == 126:
-            print("ffmpeg没有权限")
+            Log.i("ffmpeg没有权限")
         else:
             return False

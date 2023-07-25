@@ -6,6 +6,8 @@ from enum import Enum
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QIcon, QPixmap
 
+from modules.utils.Log import Log
+
 
 class SysType(Enum):
     UNKNOWN = 0
@@ -41,14 +43,14 @@ class SysUtils():
     @staticmethod
     def checkFFmpegExecPermissions(ffmpeg_path: str):
         if os.access(ffmpeg_path, os.X_OK):
-            print("ffmpeg具有执行权限")
+            Log.i("ffmpeg具有执行权限")
         else:
-            print("ffmpeg没有执行权限")
+            Log.i("ffmpeg没有执行权限")
             # 使用subprocess执行chmod命令给ffmpeg文件添加可执行权限
             cmd = f"chmod 775 {ffmpeg_path}"
             exit_code = subprocess.call(cmd, shell=True)
 
             if os.access(ffmpeg_path, os.X_OK):
-                print(f"自动授权成功")
+                Log.i(f"自动授权成功")
             else:
-                print(f"自动授权失败，请手动给{ffmpeg_path}授予执行权限")
+                Log.i(f"自动授权失败，请手动给{ffmpeg_path}授予执行权限")

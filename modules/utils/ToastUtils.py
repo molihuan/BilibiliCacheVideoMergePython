@@ -4,7 +4,8 @@ from PySide6.QtCore import Qt, QPropertyAnimation, QTimer
 from PySide6.QtGui import QPalette, QColor
 from PySide6.QtWidgets import QApplication, QLabel, QVBoxLayout, QWidget
 
-from modules.service.base.BaseService import BaseService
+from modules.home.base.BaseService import BaseService
+from modules.home.base.BaseServiceWidget import BaseServiceWidget
 
 
 class ToastType(Enum):
@@ -14,10 +15,10 @@ class ToastType(Enum):
     WARNING = 3
 
 
-class ToastUtils(QWidget, BaseService):
+class ToastUtils(BaseServiceWidget):
 
-    def __init__(self, context):
-        super().__init__(context=context)
+    def __init__(self, mContext):
+        super().__init__(mContext=mContext)
 
         self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint)
         # self.setAttribute(Qt.WA_TranslucentBackground)

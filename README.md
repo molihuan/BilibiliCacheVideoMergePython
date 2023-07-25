@@ -82,7 +82,7 @@ https://github.com/molihuan/BilibiliCacheVideoMergePython/releases
 
 #### 第一步
 
-在你的平台上安装python3.8.0以上（推荐安装和我一样的版本python3.8.6，避免一些为止的错误）
+在你的平台上安装python3.8.0以上（推荐安装和我一样的版本python3.8.6，避免一些未知的错误）
 
 安装依赖库
 
@@ -90,10 +90,11 @@ https://github.com/molihuan/BilibiliCacheVideoMergePython/releases
 #图形库依赖
 pip install pyside6 -i https://pypi.tuna.tsinghua.edu.cn/simple
 
-#打包依赖(任选其一，或者都安装，推荐新手使用pyinstaller,nuitka还需要其他的配置比较麻烦)
-#如果只选择一个则打包时需要修改script下面的packagescript.py，把另一个打包依赖的代码删掉。
-pip install nuitka
+#打包依赖(任选其一，或者都安装，推荐新手使用pyinstaller。nuitka还需要其他的配置比较麻烦)
+#推荐
 pip install pyinstaller
+#可选
+pip install nuitka
 ```
 
 #### 第二步
@@ -106,7 +107,7 @@ pip install pyinstaller
 
 没成功就自己看哪里有问题（该导库的导库，该引入依赖的引入依赖，自己解决）
 
-编译打包：运行script下面的packagescript.py，自行打包，打包后的文件在script下面
+编译打包：运行script下面的packagescript.py，自行打包，打包后的文件在script下面（作者分别在Win10，Ubuntu22,Mac14.3.1打包成功）
 
 ## 开发环境
 
@@ -121,8 +122,8 @@ python3.8.6
 pip install pyside6 -i https://pypi.tuna.tsinghua.edu.cn/simple
 
 #打包依赖
-pip install nuitka
 pip install pyinstaller
+pip install nuitka
 ```
 
 ## 更新日志:
@@ -140,19 +141,19 @@ pip install pyinstaller
 ## LICENSE 
 
 ```
-   Copyright [2023] molihuan
+Copyright [2023] molihuan
 
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
 
-       http://www.apache.org/licenses/LICENSE-2.0
+http://www.apache.org/licenses/LICENSE-2.0
 
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 ```
 
 

@@ -14,27 +14,33 @@
 #
 # ///////////////////////////////////////////////////////////////
 
-import sys
-import os
-import time
-
 # IMPORT / GUI AND MODULES AND WIDGETS
 # ///////////////////////////////////////////////////////////////
+import os
+import sys
 
-from modules import *
-from modules import Settings
-from modules.service.manager.ConfigManager import ConfigManager, ConfigKey
+from PySide6.QtCore import Qt
+from PySide6.QtGui import QIcon
+from PySide6.QtWidgets import QMainWindow, QHeaderView, QApplication
+
+from modules.framework import *
+from modules.framework.ui_main import Ui_MainWindow
+
+from modules.player.PlayerPage import PlayerPage
+from modules.framework.manager.ConfigManager import ConfigManager, ConfigKey
+from modules.utils.Log import Log
+from modules.utils.PathUtils import PathUtils
 
 from modules.utils.SysUtils import SysUtils, SysType
-from modules.widgets.WorkPage import WorkPage
-from modules.widgets.settings.BaseSettingsPage import BaseSettingsPage
+from modules.home.WorkPage import WorkPage
+from modules.settings.BaseSettingsPage import BaseSettingsPage
 from script.appDetails import APP_NAME, APP_VERSION
 
 os.environ["QT_FONT_DPI"] = "96"  # FIX Problem for High DPI and Scale above 100%
 
 # SET AS GLOBAL WIDGETS
 # ///////////////////////////////////////////////////////////////
-widgets = None
+widgets: Ui_MainWindow = None
 
 appVersion = None
 
@@ -42,8 +48,11 @@ appVersion = None
 class MainWindow(QMainWindow):
     def __init__(self):
         QMainWindow.__init__(self)
+        # 是否开启调试，mac打包下必须关闭
+        Log.setDebug(True)
+
         # 程序所在的路径
-        self.selfPath = os.getcwd()
+        self.selfPath = PathUtils.getcwd()
         configJsonPath = os.path.join(self.selfPath, 'config.json')
         # 配置管理者
         self.ConfigManager = ConfigManager(configJsonPath)
@@ -118,6 +127,7 @@ class MainWindow(QMainWindow):
         #     absPath = os.path.dirname(os.path.abspath(sys.executable))
         # elif __file__:
         #     absPath = os.path.dirname(os.path.abspath(__file__))
+        # themeFile = os.path.abspath(os.path.join(absPath, "themes/py_dracula_light.qss"))
 
         self.useCustomTheme = True
 
@@ -129,8 +139,16 @@ class MainWindow(QMainWindow):
 
         # SET THEME AND HACKS
         if self.useCustomTheme:
+
             # LOAD AND APPLY STYLE
-            UIFunctions.theme(self, self.themeFile, True)
+            if not UIFunctions.theme(self, self.themeFile, True):
+                os.remove(configJsonPath)
+                self.ConfigManager.removeAll()
+                themesPath = os.path.join(self.selfPath, "themes/py_dracula_dark.qss")
+                self.ConfigManager.add(ConfigKey.THEMES_PATH, themesPath)
+                self.ConfigManager.save()
+                UIFunctions.theme(self, self.themeFile, True)
+
             # SET HACKS
             AppFunctions.setThemeHack(self)
 
@@ -163,7 +181,7 @@ class MainWindow(QMainWindow):
             widgets.stackedWidget.setCurrentWidget(widgets.widgets)
             UIFunctions.resetStyle(self, btnName)
             btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet()))
-            print(self.workPage.DataShowManage.selectedCacheList)
+            Log.i(self.workPage.DataShowManage.selectedCacheList)
             pass
 
         # 改变主题
@@ -183,6 +201,16 @@ class MainWindow(QMainWindow):
         # 退出
         if btnName == "btn_exit":
             self.close()
+            # # 实例化视图
+            # self.playerPage: PlayerPage = PlayerPage(self.ConfigManager)
+            # # 添加到StackedWidget中
+            # widgets.stackedWidget.addWidget(self.playerPage)
+            # # 设置为当前显示页
+            # widgets.stackedWidget.setCurrentWidget(self.playerPage)
+            # # 设置选中按钮样式
+            # widgets.btn_exit.setStyleSheet(UIFunctions.selectMenu(widgets.btn_exit.styleSheet()))
+
+            pass
         # 基础设置按钮
         if btnName == "btn_base_settings":
             # 实例化视图
@@ -197,7 +225,7 @@ class MainWindow(QMainWindow):
             pass
 
         # PRINT BTN NAME
-        print(f'按钮 "{btnName}" 点击!')
+        Log.i(f'按钮 "{btnName}" 点击!')
 
     # 加载ui后要进行的处理
     def afterLoadUi(self):
@@ -219,9 +247,9 @@ class MainWindow(QMainWindow):
 
         # PRINT MOUSE EVENTS
         if event.buttons() == Qt.LeftButton:
-            print('Mouse click: LEFT CLICK')
+            Log.i('Mouse click: LEFT CLICK')
         if event.buttons() == Qt.RightButton:
-            print('Mouse click: RIGHT CLICK')
+            Log.i('Mouse click: RIGHT CLICK')
 
     # 关闭之前调用
     def closeEvent(self, event):

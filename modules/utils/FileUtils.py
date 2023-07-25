@@ -1,5 +1,7 @@
 import os
 
+from modules.utils.Log import Log
+
 
 class FileUtils:
     def t1(s):
@@ -10,7 +12,7 @@ class FileUtils:
         try:
             os.remove(path)
         except OSError as e:
-            print("文件删除失败:", e)
+            Log.i("文件删除失败:", e)
 
     # 获取文件夹下唯一的文件名
     @staticmethod

@@ -1,13 +1,14 @@
 from PySide6.QtWidgets import QVBoxLayout, QLabel, QSizePolicy, QHBoxLayout, QPushButton, QDialog
 
-from modules.service.base.BaseService import BaseService
+from modules.home.base.BaseService import BaseService
+from modules.home.base.BaseServiceDialog import BaseServiceDialog
 from modules.utils.SysUtils import SysUtils
 
 
-class DialogUtils(QDialog, BaseService):
+class DialogUtils(BaseServiceDialog):
 
-    def __init__(self, mcontent):
-        super().__init__(context=mcontent)
+    def __init__(self, mContext):
+        super().__init__(mContext=mContext)
         # 设置透明icon
         icon = SysUtils.getTransparentIcon()
         self.setWindowIcon(icon)

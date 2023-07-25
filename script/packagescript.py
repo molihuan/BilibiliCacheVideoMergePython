@@ -1,6 +1,5 @@
 import os
 import shutil
-import sys
 from enum import Enum
 import sys
 
@@ -10,8 +9,11 @@ workPath = os.getcwd()
 workParentPath = os.path.dirname(workPath)
 # 将workParentPath也设置为工作目录
 sys.path.append(workParentPath)
-from script.appDetails import APP_NAME
+
 from modules.utils.SysUtils import SysType, SysUtils
+
+from script.appDetails import APP_NAME
+
 #//////////////////////////////////////////////
 
 
@@ -23,7 +25,7 @@ ffmpegPackageDirUpkg = "./res/ffmpeg/ffmpeg.exe"
 pythonMainPath = os.path.join(workParentPath, 'main.py')
 outputDir = os.path.join(workPath, "dist")
 icoPath =os.path.join(workParentPath,'res/images/images/ml.ico')
-
+macIcoPath =os.path.join(workParentPath,'res/images/images/ml.icns')
 themesPath = os.path.join(workParentPath, 'themes')
 themesPackageDir = "./themes"
 
@@ -34,7 +36,7 @@ def beforePkgMac():
     global ffmpegExePath
     global ffmpegPackageDirUpkg
     ffmpegExePath = os.path.join(workParentPath,"res/ffmpeg/ffmpeg-mac")
-    ffmpegPackageDirUpkg = "./res/ffmpeg/ffmpeg-mac"
+    ffmpegPackageDirUpkg = "./res/ffmpeg"
 
 
 def beforePkgLinux():
@@ -55,13 +57,13 @@ def Ppkg(sysType):
     # 执行打包命令
     cmd = [
         pythonMainPath,  # 指定你的Python脚本文件
-        '--add-data', f'{ffmpegExePath};{ffmpegPackageDir}',  # 将ffmpeg文件复制到指定目录
+        '--add-binary', f'{ffmpegExePath};{ffmpegPackageDir}',  # 将ffmpeg文件复制到指定目录
         '-n', softName,
-        '--add-binary', f'{themesPath};{themesPackageDir}',
+        '--add-data', f'{themesPath};{themesPackageDir}',
+        '-i', icoPath,
         # 前面的顺序不要动
         # '--add-binary', f'{ffmpegExePath}:{ffmpegPackageDir}',  # 将ffmpeg文件夹复制到指定目录
         # '--onefile',  # 打包成一个单独的可执行文件
-        '-i', icoPath,
         '--noconsole',  # 不显示控制台窗口
         '--clean',
         '--distpath', outputDir
@@ -71,7 +73,16 @@ def Ppkg(sysType):
         cmd[1] = "--add-binary"
         cmd[2] = f'{ffmpegExePath}:{ffmpegPackageDirUpkg}'
         cmd[4] = APP_NAME
+        cmd[5] = '--add-data'
         cmd[6] = f'{themesPath}:{themesPackageDir}'
+    # 需要打包文件夹
+    if sysType == SysType.MAC:
+        cmd[1] = "--add-binary"
+        cmd[2] = f'{ffmpegExePath}:{ffmpegPackageDirUpkg}'
+        cmd[4] = APP_NAME
+        cmd[5] = '--add-data'
+        cmd[6] = f'{themesPath}:{themesPackageDir}'
+        cmd[8] = macIcoPath
 
     PyInstaller.__main__.run(cmd)
 

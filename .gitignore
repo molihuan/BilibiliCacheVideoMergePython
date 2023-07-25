@@ -14,11 +14,5 @@ __pycache__/
 !/script/uiConnectResources.py
 !/script/appDetails.py
 
-/test/py/
-/test/download/*
-!/test/download/666666/
-!/test/download/999999/
-/test/bilibili/*
-!/test/bilibili/666666/
-!/test/bilibili/999999/
+/test/
 /config.json

@@ -1,11 +1,12 @@
 import os
+import sys
 from enum import Enum
 
 from PySide6.QtCore import QDir, QUrl
 from PySide6.QtGui import QDesktopServices
 from PySide6.QtWidgets import QFileDialog
 
-from modules.entity.CacheInfo import CacheInfo
+from modules.utils.Log import Log
 from modules.utils.StrUtils import StrUtils
 from modules.utils.SysUtils import SysUtils, SysType
 
@@ -31,7 +32,7 @@ class PathUtils():
                 if os.path.isdir(item_path):
                     subfolders.append(item_path)
         except FileNotFoundError as e:
-            
+
             pass
         return subfolders
 
@@ -45,47 +46,6 @@ class PathUtils():
                 subfiles.append(item_path)
         return subfiles
 
-    """
-                if CacheCompleteState.AUDIODELETION in status or CacheCompleteState.VIDEODELETION in status:
-                print(f"粗略检查文件夹:{item}\n------缺少audio.m4s或video.m4s文件")
-                if CacheCompleteState.JSONDELETION in status:
-                    print(f"粗略检查文件夹:{item}\n------缺少entry.json文件")
-                    json_info = JsonUtils.getUUIDJson()
-                else:
-                    # 解析json
-                    json_info = JsonUtils.parse_json(info.getJsonPath())
-            elif CacheCompleteState.JSONDELETION in status:
-                print(f"粗略检查文件夹:{item}\n------缺少entry.json文件")
-                json_info = JsonUtils.getUUIDJson()
-            else:
-                json_info = JsonUtils.parse_json(info.getJsonPath())
-    
-    """
-
-    @staticmethod
-    # 校验缓存文件完整性
-    def verifyCacheFileComplete(cacheInfo: CacheInfo):
-        stateList = []
-        audioPath = cacheInfo.getAudioPath()
-        videoPath = cacheInfo.getVideoPath()
-        jsonPath = cacheInfo.getJsonPath()
-        danmakuPath = cacheInfo.getDanmakuPath()
-        blvPathList = cacheInfo.getBlvPathList()
-        if not isinstance(audioPath, str):
-            stateList.append(CacheCompleteState.AUDIODELETION)
-        if not isinstance(videoPath, str):
-            stateList.append(CacheCompleteState.VIDEODELETION)
-        if not isinstance(jsonPath, str):
-            stateList.append(CacheCompleteState.JSONDELETION)
-        if not isinstance(danmakuPath, str):
-            stateList.append(CacheCompleteState.DANMAKUDELETION)
-        if not blvPathList is None:
-            stateList.remove(CacheCompleteState.AUDIODELETION)
-            stateList.remove(CacheCompleteState.VIDEODELETION)
-            stateList.append(CacheCompleteState.DANMAKUDELETION)
-
-        return stateList
-
     @staticmethod
     def openPathByFileManager(path):
         url = QUrl.fromLocalFile(path)
@@ -98,11 +58,11 @@ class PathUtils():
     ##打开路径选择器
     # 参数：回调方法、校验码
     @staticmethod
-    def openPathSelector(callback, fromCode):
-        directory_dialog = QFileDialog()
-        directory_dialog.setFileMode(QFileDialog.Directory)
-        if directory_dialog.exec_():
-            selected_path = directory_dialog.selectedFiles()[0]
+    def openPathSelector(callback, fromCode, mode=QFileDialog.FileMode.Directory):
+        dialog = QFileDialog()
+        dialog.setFileMode(mode)
+        if dialog.exec_():
+            selected_path = dialog.selectedFiles()
             callback(selected_path, fromCode)
 
     @staticmethod
@@ -125,11 +85,11 @@ class PathUtils():
         elif sysType == SysType.LINUX:
             return linuxFFmpegPath
         else:
-            print("不支持系统")
+            Log.i("不支持系统")
 
     @staticmethod
     def getResPath():
-        workPath = os.getcwd()
+        workPath = PathUtils.getcwd()
         resPath = os.path.join(workPath, "res")
         return resPath
 
@@ -214,3 +174,11 @@ class PathUtils():
                          lambda: dialog.close())
             return False
         return True
+    # 获取main的工作路径win linux不需要mac必须要这样否则有问题
+    @staticmethod
+    def getcwd():
+        if getattr(sys, 'frozen', False):  # 是否Bundle Resource
+            base_path = sys._MEIPASS
+        else:
+            base_path = os.path.abspath(".")
+        return base_path
