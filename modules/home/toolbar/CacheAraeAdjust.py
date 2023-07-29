@@ -66,9 +66,9 @@ class CacheAraeAdjust(BaseService):
         manage: DataShowManager = context.DataShowManage
 
         if manage.dataPageType == DataPageType.COLLECTION_PAGE:
-            manage.showDataPageByFileStructure(context.getCachePath())
+            manage.showDataPageByFileStructure(context.getCachePath(),manage.pageIndex)
             pass
         elif manage.dataPageType == DataPageType.CHAPTER_PAGE:
-            manage.showDataPageByFileStructure(context.getCachePath())
+            manage.showDataPageByFileStructure(context.getCachePath(),manage.pageIndex)
             pass
         # dataList: QTableWidget = context.ui.dataTableWidget

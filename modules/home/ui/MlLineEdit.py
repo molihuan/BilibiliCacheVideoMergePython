@@ -1,3 +1,6 @@
+
+
+from PySide6.QtCore import QEvent, QObject, Qt
 from PySide6.QtWidgets import QLineEdit
 
 # 编辑框
@@ -15,3 +18,6 @@ class MlLineEdit(QLineEdit):
         if urls:
             path = urls[0].toLocalFile()
             self.setText(path)
+
+
+

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'WorkPagewQVDRY.ui'
+## Form generated from reading UI file 'WorkPageihuHCJ.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.5.1
 ##
@@ -20,6 +20,7 @@ from PySide6.QtWidgets import (QApplication, QHBoxLayout, QHeaderView, QLabel,
     QLineEdit, QPushButton, QSizePolicy, QSpacerItem,
     QTableWidget, QTableWidgetItem, QVBoxLayout, QWidget)
 
+from modules.home.ui.MlLineEdit import MlLineEdit
 
 class Ui_WorkPageWidget(object):
     def setupUi(self, WorkPageWidget):
@@ -36,9 +37,7 @@ class Ui_WorkPageWidget(object):
         self.checkUpdateItem.setObjectName(u"checkUpdateItem")
         self.aboutItem = QAction(WorkPageWidget)
         self.aboutItem.setObjectName(u"aboutItem")
-        self.verticalLayout_3 = QVBoxLayout(WorkPageWidget)
-        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
-        self.verticalLayout_2 = QVBoxLayout()
+        self.verticalLayout_2 = QVBoxLayout(WorkPageWidget)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.verticalLayout = QVBoxLayout()
         self.verticalLayout.setObjectName(u"verticalLayout")
@@ -49,12 +48,12 @@ class Ui_WorkPageWidget(object):
 
         self.CatchVedioDirLayout.addWidget(self.vedioDirLabel)
 
-        self.vedioDirShowLineEdit = QLineEdit(WorkPageWidget)
+        self.vedioDirShowLineEdit = MlLineEdit(WorkPageWidget)
         self.vedioDirShowLineEdit.setObjectName(u"vedioDirShowLineEdit")
         self.vedioDirShowLineEdit.setMinimumSize(QSize(0, 30))
         self.vedioDirShowLineEdit.setStyleSheet(u"background-color: rgb(33, 37, 43);")
-        self.vedioDirShowLineEdit.setDragEnabled(True)
-        self.vedioDirShowLineEdit.setClearButtonEnabled(True)
+        self.vedioDirShowLineEdit.setProperty("dragEnabled", True)
+        self.vedioDirShowLineEdit.setProperty("clearButtonEnabled", True)
 
         self.CatchVedioDirLayout.addWidget(self.vedioDirShowLineEdit)
 
@@ -117,6 +116,48 @@ class Ui_WorkPageWidget(object):
 
         self.verticalLayout.addWidget(self.dataTableWidget)
 
+        self.horizontalLayout_4 = QHBoxLayout()
+        self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
+        self.horizontalSpacer_4 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout_4.addItem(self.horizontalSpacer_4)
+
+        self.prePageBtn = QPushButton(WorkPageWidget)
+        self.prePageBtn.setObjectName(u"prePageBtn")
+        self.prePageBtn.setMinimumSize(QSize(100, 20))
+        self.prePageBtn.setStyleSheet(u"background-color: rgb(52, 59, 72);")
+
+        self.horizontalLayout_4.addWidget(self.prePageBtn)
+
+        self.curPageEdit = QLineEdit(WorkPageWidget)
+        self.curPageEdit.setObjectName(u"curPageEdit")
+        self.curPageEdit.setMinimumSize(QSize(100, 20))
+        self.curPageEdit.setMaximumSize(QSize(50, 16777215))
+        self.curPageEdit.setStyleSheet(u"background-color: rgb(52, 59, 72);")
+        self.curPageEdit.setAlignment(Qt.AlignCenter)
+
+        self.horizontalLayout_4.addWidget(self.curPageEdit)
+
+        self.sufPageBtn = QPushButton(WorkPageWidget)
+        self.sufPageBtn.setObjectName(u"sufPageBtn")
+        self.sufPageBtn.setMinimumSize(QSize(100, 20))
+        self.sufPageBtn.setStyleSheet(u"background-color: rgb(52, 59, 72);")
+
+        self.horizontalLayout_4.addWidget(self.sufPageBtn)
+
+        self.totalPageLabel = QLabel(WorkPageWidget)
+        self.totalPageLabel.setObjectName(u"totalPageLabel")
+        self.totalPageLabel.setMinimumSize(QSize(0, 20))
+
+        self.horizontalLayout_4.addWidget(self.totalPageLabel)
+
+        self.horizontalSpacer_5 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout_4.addItem(self.horizontalSpacer_5)
+
+
+        self.verticalLayout.addLayout(self.horizontalLayout_4)
+
         self.horizontalLayout_3 = QHBoxLayout()
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
         self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
@@ -148,9 +189,6 @@ class Ui_WorkPageWidget(object):
         self.verticalLayout_2.addLayout(self.verticalLayout)
 
 
-        self.verticalLayout_3.addLayout(self.verticalLayout_2)
-
-
         self.retranslateUi(WorkPageWidget)
 
         QMetaObject.connectSlotsByName(WorkPageWidget)
@@ -169,6 +207,9 @@ class Ui_WorkPageWidget(object):
         self.completeFileBtn.setText(QCoreApplication.translate("WorkPageWidget", u"\u5b8c\u6210\u6587\u4ef6", None))
         self.selectAllBtn.setText(QCoreApplication.translate("WorkPageWidget", u"\u5168\u9009", None))
         self.refreshBtn.setText(QCoreApplication.translate("WorkPageWidget", u"\u5237\u65b0", None))
+        self.prePageBtn.setText(QCoreApplication.translate("WorkPageWidget", u"\u4e0a\u4e00\u9875", None))
+        self.sufPageBtn.setText(QCoreApplication.translate("WorkPageWidget", u"\u4e0b\u4e00\u9875", None))
+        self.totalPageLabel.setText(QCoreApplication.translate("WorkPageWidget", u"\u603b\u9875\u6570:", None))
         self.getMP3Btn.setText(QCoreApplication.translate("WorkPageWidget", u"\u63d0\u53d6\u97f3\u9891", None))
         self.mergeBtn.setText(QCoreApplication.translate("WorkPageWidget", u"\u5408\u5e76", None))
     # retranslateUi

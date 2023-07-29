@@ -6,6 +6,7 @@ from PySide6.QtWidgets import QHeaderView, QTableWidget
 from modules.framework.manager.ConfigManager import ConfigKey
 from modules.home.BaseDataWorkPage import BaseDataWorkPage
 from modules.home.base.BaseService import BaseService
+from modules.home.dataarea.DataShowManager import PAGE_SIZE
 from modules.utils.PathUtils import PathUtils
 from modules.utils.SysUtils import SysUtils
 
@@ -19,7 +20,7 @@ class InitManager(BaseService):
         dataTableWidget: QTableWidget = context.ui.dataTableWidget
         dataTableWidget.setColumnCount(2)
         dataTableWidget.setHorizontalHeaderLabels(["标题", "路径"])
-        dataTableWidget.setRowCount(15)
+        dataTableWidget.setRowCount(PAGE_SIZE)
 
         # 设置表头自适应宽度
         header = dataTableWidget.horizontalHeader()

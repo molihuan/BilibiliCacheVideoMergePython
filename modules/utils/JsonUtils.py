@@ -132,6 +132,9 @@ class JsonUtils:
 
             if isGetSubTitle:
                 subTitle = re.sub(SPECIAL_CHARACTERS_REGULAR_RULE, '', subTitle)
+                if subTitle =='' and not title=='':
+                    subTitle = title
+
             else:
                 subTitle = JsonUtils.generate_short_id()
 

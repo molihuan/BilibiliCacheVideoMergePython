@@ -20,7 +20,7 @@ class BaseAction(BaseService):
             newSelectedCacheList = []
             for item in manage.selectedCacheList:
                 # 获取合集里的章节路径
-                chapterPathList = manage.getAllChapterPathByCollection(item.getPath())
+                chapterPathList = manage.getAllChapterPathByCollection(item.getParentPath())
                 for ite in chapterPathList:
                     totalCacheDirCount += 1
                     # 通过章节路径获取缓存信息

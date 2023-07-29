@@ -1,10 +1,11 @@
+import math
 import os
 from enum import Enum
 from typing import List
 
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QPixmap
-from PySide6.QtWidgets import QTableWidget, QTableWidgetItem, QMainWindow
+from PySide6.QtWidgets import QTableWidget, QTableWidgetItem, QMainWindow, QLineEdit, QLabel, QPushButton
 
 from modules.home.base.BaseService import BaseService
 from modules.home.entity.CacheInfo import CacheInfo
@@ -28,6 +29,9 @@ class CacheFileTpye(Enum):
     PHONE = 1
 
 
+# 页面大小
+PAGE_SIZE = 15
+
 # 列表数据
 class DataShowManager(BaseService):
     def __init__(self, mContext):
@@ -41,13 +45,41 @@ class DataShowManager(BaseService):
         # 进行分页的索引
         self.pageIndex = 1
 
+        # 总页数
+        self.totalPageCount = 1
+
+
     # 设置监听
     def setConnect(self, context: QMainWindow):
         ui = self.getUI()
         dataListWidget: QTableWidget = ui.dataTableWidget
+        self.prePageBtn :QPushButton= ui.prePageBtn
+        self.sufPageBtn :QPushButton= ui.sufPageBtn
         # 勾选状态改变监听
         dataListWidget.itemChanged.connect(self.handItemChange)
         dataListWidget.itemDoubleClicked.connect(self.handItemDoubleClick)
+
+        self.prePageBtn.clicked.connect(lambda :self.handleClicked(self.prePageBtn))
+        self.sufPageBtn.clicked.connect(lambda :self.handleClicked(self.sufPageBtn))
+
+    def handleClicked(self,view):
+        context = self.getContext()
+        cachePath = context.getCachePath()
+        ui = self.getUI()
+        edit:QLineEdit = ui.curPageEdit
+        viewName = view.objectName()
+        editPageIndex = int (edit.text())
+
+        print(editPageIndex)
+        if viewName == "prePageBtn":
+            if editPageIndex>1:
+                self.showDataPageByFileStructure(cachePath,editPageIndex-1)
+        if viewName == "sufPageBtn":
+            if editPageIndex>self.totalPageCount or editPageIndex==self.totalPageCount:
+                self.showDataPageByFileStructure(cachePath,self.totalPageCount)
+            else:
+                self.showDataPageByFileStructure(cachePath, editPageIndex+1)
+        pass
 
     # 是否是集合页面
     def isCollectionPage(self):
@@ -60,7 +92,7 @@ class DataShowManager(BaseService):
     def handItemDoubleClick(self, item: QTableWidgetItem):
         if self.isCollectionPage():
             cacheInfo = self.cacheDataList[item.row()]
-            self.showDataPageByFileStructure(cacheInfo.getPath())
+            self.showDataPageByFileStructure(cacheInfo.getParentPath())
 
     # 清理所有的数据
     def clearDataList(self):
@@ -73,7 +105,7 @@ class DataShowManager(BaseService):
             dataListWidget.setHorizontalHeaderLabels(["标题", "路径"])
 
     # 根据文件结构显示数据页面
-    def showDataPageByFileStructure(self, cachePath):
+    def showDataPageByFileStructure(self, cachePath,pageIndex=1):
 
         if cachePath == "" or cachePath is None:
             return
@@ -93,11 +125,11 @@ class DataShowManager(BaseService):
         for filePath in thrFileList:
             if filePath.endswith("entry.json"):
                 context.setCacheFileTpye(CacheFileTpye.PHONE)
-                self.showChapterDataPage(cachePath)
+                self.showChapterDataPage(cachePath,pageIndex)
                 return
             if filePath.endswith(".videoInfo"):
                 context.setCacheFileTpye(CacheFileTpye.PC)
-                self.showChapterDataPage(cachePath)
+                self.showChapterDataPage(cachePath,pageIndex)
                 return
         thrDirList = PathUtils.listSubDir(subDirList[0])
         if CommonUtils.isListEmpty(thrDirList):
@@ -109,29 +141,40 @@ class DataShowManager(BaseService):
             return
         for filePath in forFileList:
             if filePath.endswith("entry.json"):
-                self.showCollectionDataPage(cachePath)
+                self.showCollectionDataPage(cachePath,pageIndex)
                 return
 
     # 显示合集页面
-    def showCollectionDataPage(self, cachePath):
+    def showCollectionDataPage(self, cachePath,pageIndex):
 
         self.dataPageType = DataPageType.COLLECTION_PAGE
-        self.pageIndex = 1
+        self.pageIndex = pageIndex
         self.clearDataList()
-
-        context = self.getContext()
-        ui = self.getUI()
-        dataListWidget: QTableWidget = ui.dataTableWidget
-
+        # 章节路径列表
         chapterPaths = self.getCollectionPageData(cachePath)
 
-        # chapterPaths = dataPageData
+        # 计算总页数
+        self.totalPageCount = math.ceil(len(chapterPaths) / PAGE_SIZE)
+        ui = self.getUI()
+        dataListWidget: QTableWidget = ui.dataTableWidget
+        curPageEdit: QLineEdit = ui.curPageEdit
+        curPageEdit.setText(str(pageIndex))
+        totalPageLabel: QLabel = ui.totalPageLabel
+        totalPageLabel.setText(f"总页数:{self.totalPageCount}")
+        if pageIndex == self.totalPageCount:
+            tempChapterPaths = chapterPaths[(pageIndex - 1) * PAGE_SIZE:]
+        else:
+            tempChapterPaths = chapterPaths[(pageIndex - 1) * PAGE_SIZE:pageIndex * PAGE_SIZE]
+
+
+
         realIndex = 0
-        for index, item in enumerate(chapterPaths):
+        for index, item in enumerate(tempChapterPaths):
             info = self.getCacheInfoByPhone(item)
             json = JsonUtils.parseJson(info)
             # 获取父目录
-            info.setPath(os.path.dirname(item))
+            info.setPath(item)
+            info.setParentPath(os.path.dirname(item))
             info.setSubTitle(json.get_subTitle())
             info.setTitle(json.get_title())
             self.cacheDataList.append(info)
@@ -141,7 +184,7 @@ class DataShowManager(BaseService):
             dataItem.setTextAlignment(Qt.AlignCenter)  # 设置单元格内容居中对齐
             dataItem.setCheckState(Qt.CheckState.Unchecked)
 
-            dataItem: QTableWidgetItem = QTableWidgetItem(info.getPath())
+            dataItem: QTableWidgetItem = QTableWidgetItem(info.getParentPath())
 
             dataListWidget.setItem(realIndex, 1, dataItem)
 
@@ -153,9 +196,7 @@ class DataShowManager(BaseService):
 
             realIndex += 1
 
-        # dataListWidget.resizeRowsToContents()
-        # 重新设置单元格大小
-        # dataListWidget.resizeColumnsToContents()
+
 
     def handleImageLoaded(self, table, row, column, pixmap: QPixmap):
         label = MImageLabel(pixmap, "")
@@ -163,20 +204,30 @@ class DataShowManager(BaseService):
         table.setColumnWidth(column, 220)
         table.setCellWidget(row, column, label)
 
-    def showChapterDataPage(self, collectionPath):
+    def showChapterDataPage(self, collectionPath,pageIndex):
 
         self.dataPageType = DataPageType.CHAPTER_PAGE
         self.pageIndex = 1
-
         self.clearDataList()
+        chapterPaths = self.getChapterPageData(collectionPath)
 
-        context = self.getContext()
+        context=self.getContext()
+
+        # 计算总页数
+        self.totalPageCount = math.ceil(len(chapterPaths) / PAGE_SIZE)
         ui = self.getUI()
         dataListWidget: QTableWidget = ui.dataTableWidget
+        curPageEdit: QLineEdit = ui.curPageEdit
+        curPageEdit.setText(str(pageIndex))
+        totalPageLabel: QLabel = ui.totalPageLabel
+        totalPageLabel.setText(f"总页数:{self.totalPageCount}")
+        if pageIndex == self.totalPageCount:
+            tempChapterPaths = chapterPaths[(pageIndex - 1) * PAGE_SIZE:]
+        else:
+            tempChapterPaths = chapterPaths[(pageIndex - 1) * PAGE_SIZE:pageIndex * PAGE_SIZE]
 
-        chapterPaths = self.getChapterPageData(collectionPath)
         realIndex = 0
-        for index, item in enumerate(chapterPaths):
+        for index, item in enumerate(tempChapterPaths):
 
             if context.getCacheFileTpye() == CacheFileTpye.PC:
                 info = self.getCacheInfoByPC(item)
@@ -273,6 +324,7 @@ class DataShowManager(BaseService):
         return chapterPath
 
     # 每一个集合只获取一个章节，用于合集数据页面的展示
+    # 返回的是章节路径集合
     def getAllOneChapterPath(self, cachePath):
         allChapterPath = []
         allCollectionPath = self.getAllCollectionPath(cachePath)

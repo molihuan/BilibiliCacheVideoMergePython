@@ -40,10 +40,13 @@ class PathUtils():
     @staticmethod
     def listSubFile(parentPath):
         subfiles = []
-        for item in os.listdir(parentPath):
-            item_path = os.path.join(parentPath, item)
-            if os.path.isfile(item_path):
-                subfiles.append(item_path)
+        try:
+            for item in os.listdir(parentPath):
+                item_path = os.path.join(parentPath, item)
+                if os.path.isfile(item_path):
+                    subfiles.append(item_path)
+        except Exception as e:
+            Log.e(e)
         return subfiles
 
     @staticmethod
