@@ -1,3 +1,4 @@
+from .resources_rc import *
 # -*- coding: utf-8 -*-
 
 ################################################################################
@@ -22,7 +23,6 @@ from PySide6.QtWidgets import (QAbstractItemView, QAbstractScrollArea, QApplicat
     QScrollArea, QScrollBar, QSizePolicy, QSlider,
     QStackedWidget, QTableWidget, QTableWidgetItem, QTextEdit,
     QVBoxLayout, QWidget)
-from .resources_rc import *
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -1622,6 +1622,8 @@ class Ui_MainWindow(object):
 "Github: \n"
 "[https://github.com/molihuan/BilibiliCacheVideoMergePython](https://github.com/molihuan/BilibiliCacheVideoMergePython)\n"
 "\n"
+"Gitee: _https://gitee.com/molihuan/BilibiliCacheVideoMergePython_\n"
+"\n"
 " **Thanks**\n"
 "\n"
 "\n"
@@ -1641,9 +1643,10 @@ class Ui_MainWindow(object):
 "<p align=\"center\" style=\" margin-top:6px; margin-bottom:6px; margin-left:0px; margin-right:0px;"
                         " -qt-block-indent:0; text-indent:0px;\">  <span style=\" color:#aaaaff;\">Created by:MOLI</span></p>\n"
 "<p align=\"center\" style=\" margin-top:6px; margin-bottom:6px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" color:#ffffff;\">Github:</span> <a href=\"https://github.com/molihuan/BilibiliCacheVideoMergePython\"><span style=\" text-decoration: underline; color:#ffaaff;\">https://github.com/molihuan/BilibiliCacheVideoMergePython</span></a></p>\n"
+"<p align=\"center\" style=\" margin-top:6px; margin-bottom:6px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" color:#ffffff;\">Gitee:</span> <span style=\" text-decoration: underline; color:#ffaaff;\">https://gitee.com/molihuan/BilibiliCacheVideoMergePython</span></p>\n"
 "<p align=\"center\" style=\" margin-top:6px; margin-bottom:6px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"> <span style=\" font-weight:700; color:#ffffff;\">Thanks</span></p>\n"
-"<p align=\"center\" style=\" margin-top:6px; margin-bottom:6px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><a href=\"https://github.com/Wanderson-Magalhaes/Modern_GUI_PyDracula_PySide6_or_PyQt6\"><span style=\" text-decoration: underline; color:#aaffff;\">https://github.com/Wanderson-Ma"
-                        "galhaes/Modern_GUI_PyDracula_PySide6_or_PyQt6</span></a></p>\n"
+"<p"
+                        " align=\"center\" style=\" margin-top:6px; margin-bottom:6px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><a href=\"https://github.com/Wanderson-Magalhaes/Modern_GUI_PyDracula_PySide6_or_PyQt6\"><span style=\" text-decoration: underline; color:#aaffff;\">https://github.com/Wanderson-Magalhaes/Modern_GUI_PyDracula_PySide6_or_PyQt6</span></a></p>\n"
 "<p align=\"center\" style=\" margin-top:6px; margin-bottom:6px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><a href=\"https://github.com/poplangfan/pygt5_learn\"><span style=\" text-decoration: underline; color:#aaffff;\">https://github.com/poplangfan/pygt5_learn</span></a></p></body></html>", None))
         self.creditsLabel.setText(QCoreApplication.translate("MainWindow", u"By: moli", None))
         self.version.setText(QCoreApplication.translate("MainWindow", u"v1.1.0", None))

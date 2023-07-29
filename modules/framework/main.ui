@@ -1174,7 +1174,7 @@ Button */
                   <string/>
                  </property>
                  <property name="icon">
-                  <iconset resource="resources.qrc">
+                  <iconset>
                    <normaloff>:/res/images/icons/icon_close.png</normaloff>:/res/images/icons/icon_close.png</iconset>
                  </property>
                  <property name="iconSize">
@@ -1470,7 +1470,7 @@ Button */
                    <string/>
                   </property>
                   <property name="icon">
-                   <iconset resource="resources.qrc">
+                   <iconset>
                     <normaloff>:/res/images/icons/cil-3d.png</normaloff>:/res/images/icons/cil-3d.png</iconset>
                   </property>
                   <property name="iconSize">
@@ -1505,7 +1505,7 @@ Button */
                    <string/>
                   </property>
                   <property name="icon">
-                   <iconset resource="resources.qrc">
+                   <iconset>
                     <normaloff>:/res/images/icons/icon_minimize.png</normaloff>:/res/images/icons/icon_minimize.png</iconset>
                   </property>
                   <property name="iconSize">
@@ -1549,7 +1549,7 @@ Button */
                    <string/>
                   </property>
                   <property name="icon">
-                   <iconset resource="resources.qrc">
+                   <iconset>
                     <normaloff>:/res/images/icons/icon_maximize.png</normaloff>:/res/images/icons/icon_maximize.png</iconset>
                   </property>
                   <property name="iconSize">
@@ -1584,7 +1584,7 @@ Button */
                    <string/>
                   </property>
                   <property name="icon">
-                   <iconset resource="resources.qrc">
+                   <iconset>
                     <normaloff>:/res/images/icons/icon_close.png</normaloff>:/res/images/icons/icon_close.png</iconset>
                   </property>
                   <property name="iconSize">
@@ -2848,6 +2848,8 @@ Button */
 Github: 
 [https://github.com/molihuan/BilibiliCacheVideoMergePython](https://github.com/molihuan/BilibiliCacheVideoMergePython)
 
+Gitee: _https://gitee.com/molihuan/BilibiliCacheVideoMergePython_
+
  **Thanks**
 
 
@@ -2868,6 +2870,7 @@ hr { height: 1px; border-width: 0; }
 &lt;p align=&quot;center&quot; style=&quot; margin-top:6px; margin-bottom:6px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;将哔哩哔哩缓存视频进行合并的小工具&lt;/span&gt;&lt;/p&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:6px; margin-bottom:6px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;  &lt;span style=&quot; color:#aaaaff;&quot;&gt;Created by:MOLI&lt;/span&gt;&lt;/p&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:6px; margin-bottom:6px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;Github:&lt;/span&gt; &lt;a href=&quot;https://github.com/molihuan/BilibiliCacheVideoMergePython&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#ffaaff;&quot;&gt;https://github.com/molihuan/BilibiliCacheVideoMergePython&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:6px; margin-bottom:6px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;Gitee:&lt;/span&gt; &lt;span style=&quot; text-decoration: underline; color:#ffaaff;&quot;&gt;https://gitee.com/molihuan/BilibiliCacheVideoMergePython&lt;/span&gt;&lt;/p&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:6px; margin-bottom:6px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt; &lt;span style=&quot; font-weight:700; color:#ffffff;&quot;&gt;Thanks&lt;/span&gt;&lt;/p&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:6px; margin-bottom:6px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://github.com/Wanderson-Magalhaes/Modern_GUI_PyDracula_PySide6_or_PyQt6&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#aaffff;&quot;&gt;https://github.com/Wanderson-Magalhaes/Modern_GUI_PyDracula_PySide6_or_PyQt6&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:6px; margin-bottom:6px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://github.com/poplangfan/pygt5_learn&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#aaffff;&quot;&gt;https://github.com/poplangfan/pygt5_learn&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -2996,8 +2999,6 @@ hr { height: 1px; border-width: 0; }
    </layout>
   </widget>
  </widget>
- <resources>
-  <include location="resources.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

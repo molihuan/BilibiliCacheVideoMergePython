@@ -12,7 +12,7 @@ sys.path.append(workParentPath)
 
 from modules.utils.SysUtils import SysType, SysUtils
 
-from script.appDetails import APP_NAME
+from script.appDetails import APP_NAME, APP_VERSION
 
 #//////////////////////////////////////////////
 
@@ -29,7 +29,7 @@ macIcoPath =os.path.join(workParentPath,'res/images/images/ml.icns')
 themesPath = os.path.join(workParentPath, 'themes')
 themesPackageDir = "./themes"
 
-softName = APP_NAME + ".exe"
+softName = APP_NAME + APP_VERSION + "-Win.exe"
 
 
 def beforePkgMac():
@@ -72,14 +72,14 @@ def Ppkg(sysType):
     if sysType == SysType.LINUX:
         cmd[1] = "--add-binary"
         cmd[2] = f'{ffmpegExePath}:{ffmpegPackageDirUpkg}'
-        cmd[4] = APP_NAME
+        cmd[4] = APP_NAME+ APP_VERSION
         cmd[5] = '--add-data'
         cmd[6] = f'{themesPath}:{themesPackageDir}'
     # 需要打包文件夹
     if sysType == SysType.MAC:
         cmd[1] = "--add-binary"
         cmd[2] = f'{ffmpegExePath}:{ffmpegPackageDirUpkg}'
-        cmd[4] = APP_NAME
+        cmd[4] = APP_NAME+ APP_VERSION
         cmd[5] = '--add-data'
         cmd[6] = f'{themesPath}:{themesPackageDir}'
         cmd[8] = macIcoPath

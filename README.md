@@ -34,6 +34,12 @@
 
 ## 下载链接：[跳转](https://github.com/molihuan/BilibiliCacheVideoMergePython/releases)
 
+Linux版本：使用ubuntu-22.04.2-amd64打包，你的系统版本低不保证可用，如有问题请下载源码自行打包
+
+Mac版本：使用macOS ventura 13.4.1版本打包，你的系统版本低不保证可用，如有问题请下载源码自行打包
+
+Windows：使用Win 10打包，你的系统版本低不保证可用，如有问题请下载源码自行打包
+
 ## 界面:
 
 [![Beafdcf310e77efb3.png](https://z4a.net/images/2023/07/22/Beafdcf310e77efb3.png)](https://z4a.net/image/VBY2Pp)
@@ -45,7 +51,7 @@
 
 ## 软件更新
 
-- 优先级 1 (最快):交流群群文件
+- 优先级 1 (最快):交流群群文件(没有问题请不要加)
 - 优先级 2 (次之):网盘链接：
 安卓版：https://wwa.lanzouo.com/b016uhb5g
 密码:MLH
@@ -55,6 +61,8 @@
 - 优先级 4 :软件内
 
 ## 问题反馈
+
+##### 因为有你软件才更加完善
 
 请使用模板反馈问题，这样可以帮助开发者快速定位和解决问题，谢谢配合，爱你萌萌哒~^o^~
 
@@ -68,7 +76,7 @@
 
 怎样触发bug：(选填)
 
-视频链接：(选填，如果视频已经下架则把本地缓存文件打包压缩发我邮箱或者直接发群里，具体操作)
+视频链接：(选填，如果视频已经下架则把本地缓存文件打包压缩发我邮箱)
 
 
 
@@ -76,9 +84,9 @@
 
 https://github.com/molihuan/BilibiliCacheVideoMergePython/releases
 
-## 编译
+## 打包
 
-理论上支持Win/Linux/mac
+理论上支持Win 10/Linux/Mac
 
 #### 第一步
 

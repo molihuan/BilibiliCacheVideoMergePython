@@ -1,3 +1,3 @@
 {
-    "files": ["main.py","modules/main.ui","modules/resources.qrc","res","modules/player/player.ui"]
+    "files": ["main.py","modules/framework/main.ui","modules/resources.qrc","res","modules/player/player.ui"]
 }
