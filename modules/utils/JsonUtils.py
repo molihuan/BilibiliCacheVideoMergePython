@@ -126,12 +126,12 @@ class JsonUtils:
 
             # 去除特殊字符还有空格
             if isGetTitle:
-                title = re.sub(SPECIAL_CHARACTERS_REGULAR_RULE, '', title)
+                title = re.sub(SPECIAL_CHARACTERS_REGULAR_RULE, '', str(title))
             else:
                 title = JsonUtils.generate_short_id()
 
             if isGetSubTitle:
-                subTitle = re.sub(SPECIAL_CHARACTERS_REGULAR_RULE, '', subTitle)
+                subTitle = re.sub(SPECIAL_CHARACTERS_REGULAR_RULE, '', str(subTitle))
                 if subTitle =='' and not title=='':
                     subTitle = title
 

@@ -120,29 +120,35 @@ class DataShowManager(BaseService):
         if CommonUtils.isListEmpty(subDirList):
             self.clearDataList()
             return
-        thrFileList = PathUtils.listSubFile(subDirList[0])
 
-        for filePath in thrFileList:
-            if filePath.endswith("entry.json"):
-                context.setCacheFileTpye(CacheFileTpye.PHONE)
-                self.showChapterDataPage(cachePath,pageIndex)
-                return
-            if filePath.endswith(".videoInfo"):
-                context.setCacheFileTpye(CacheFileTpye.PC)
-                self.showChapterDataPage(cachePath,pageIndex)
-                return
-        thrDirList = PathUtils.listSubDir(subDirList[0])
-        if CommonUtils.isListEmpty(thrDirList):
-            self.clearDataList()
-            return
-        forFileList = PathUtils.listSubFile(thrDirList[0])
-        if CommonUtils.isListEmpty(forFileList):
-            self.clearDataList()
-            return
-        for filePath in forFileList:
-            if filePath.endswith("entry.json"):
-                self.showCollectionDataPage(cachePath,pageIndex)
-                return
+        for subDirItem in subDirList:
+
+            thrFileList = PathUtils.listSubFile(subDirItem)
+
+            for filePath in thrFileList:
+                if filePath.endswith("entry.json"):
+                    context.setCacheFileTpye(CacheFileTpye.PHONE)
+                    self.showChapterDataPage(cachePath,pageIndex)
+                    return
+                if filePath.endswith(".videoInfo"):
+                    context.setCacheFileTpye(CacheFileTpye.PC)
+                    self.showChapterDataPage(cachePath,pageIndex)
+                    return
+            thrDirList = PathUtils.listSubDir(subDirItem)
+            if CommonUtils.isListEmpty(thrDirList):
+                # self.clearDataList()
+                continue
+
+            for thrDirItem in thrDirList:
+
+                forFileList = PathUtils.listSubFile(thrDirItem)
+                if CommonUtils.isListEmpty(forFileList):
+                    # self.clearDataList()
+                    continue
+                for filePath in forFileList:
+                    if filePath.endswith("entry.json"):
+                        self.showCollectionDataPage(cachePath,pageIndex)
+                        return
 
     # 显示合集页面
     def showCollectionDataPage(self, cachePath,pageIndex):

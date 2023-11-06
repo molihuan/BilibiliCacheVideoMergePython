@@ -35,7 +35,7 @@ class ConvertAction(BaseAction):
         effectiveCacheDirCount = len(selectedList)
 
         if(effectiveCacheDirCount==0):
-            QMessageBox.question(None, "提示", f"你还没有勾选",QMessageBox.StandardButton.Ok)
+            QMessageBox.question(None, "提示", f"你还没有勾选或者勾选的无法识别",QMessageBox.StandardButton.Ok)
             return
 
         progress_step = 100 / effectiveCacheDirCount
