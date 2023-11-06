@@ -9,7 +9,7 @@ from modules.utils.SysUtils import SysUtils
 class BaseSettingsPage(BaseServiceWidget):
     def __init__(self, mContext):
         super().__init__(mContext=mContext)
-        super(QWidget).__init__()
+        # super(QWidget).__init__()
 
         # QWidget.__init__(self)
         # BaseService.__init__(self, mContext=mContext)

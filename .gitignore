@@ -13,5 +13,6 @@ __pycache__/
 !/script/buildqrc.py
 !/script/uiConnectResources.py
 !/script/appDetails.py
+!/script/readme.txt
 /test/
 /config.json

@@ -1,7 +1,7 @@
 from PySide6.QtWidgets import QWidget, QTextBrowser, QHBoxLayout
 
-from modules import BaseService
-from modules import SysUtils
+from modules.home.base import BaseService
+from modules.utils.SysUtils import SysUtils
 
 
 class AboutPage(QWidget, BaseService):

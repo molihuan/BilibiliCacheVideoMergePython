@@ -151,7 +151,10 @@ def chooseType(sysType, inType):
         pass
     else:
         print("无效的选择")
-
+#复制readme.txt
+def copyReadme(source_path, target_path):
+    # 使用shutil.copy2()方法进行复制
+    shutil.copy2(source_path, target_path)
 
 # 打包脚本
 if __name__ == "__main__":
@@ -167,3 +170,4 @@ if __name__ == "__main__":
     if inType == PkgType.NON.value:
         exit()
     chooseType(sysType, inType)
+    copyReadme("./readme.txt",outputDir)
