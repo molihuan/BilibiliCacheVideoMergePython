@@ -8,13 +8,13 @@
 [![license: Apache-2.0 (shields.io)](https://img.shields.io/badge/license-Apache--2.0-brightgreen)](https://github.com/molihuan/mlhfileselectorlib/blob/master/LICENSE)[![Star](https://img.shields.io/github/stars/molihuan/BilibiliCacheVideoMergePython.svg)](https://github.com/molihuan/BilibiliCacheVideoMergePython)[![bilibili: 玲莫利 (shields.io)](https://img.shields.io/badge/bilibili-玲莫利-orange)](https://space.bilibili.com/454222981)[![CSDN: molihuan (shields.io)](https://img.shields.io/badge/CSDN-molihuan-blue)](https://blog.csdn.net/molihuan)
 
 <h3 align="center">提供Bilibili缓存视频合并的工具</h3>
-<p align="center">将Bilibili缓存文件合并导出为MP4，支持B站手机客户端缓存，支持B站电脑客户端缓存</p>
+<p align="center">将Bilibili缓存文件合并导出为MP4，支持windows、mac、linux，支持B站手机客户端缓存，支持B站电脑客户端缓存</p>
 <p align="center">Merge and export Bilibili cache files into MP4, support caching on B-station mobile client and B-station computer client</p>
 
 
 ## 说明
 
-此软件是为了帮助网友合并哔哩哔哩缓存视频，将bilibili缓存视频合并导出为mp4，你可以将它理解为一个专用的格式工厂，并不涉及破解相关内容，仅仅用于学习技术交流，严禁用于商业用途，如有侵权请联系我删档，对你带来困惑和不便我深感抱歉。
+此软件是为了帮助网友合并哔哩哔哩缓存视频，将bilibili缓存视频合并导出为mp4，支持windows、mac、linux，你可以将它理解为一个专用的格式工厂，并不涉及破解相关内容，仅仅用于学习技术交流，严禁用于商业用途，如有侵权请联系我删档，对你带来困惑和不便我深感抱歉。
 
 ## 特性
 
