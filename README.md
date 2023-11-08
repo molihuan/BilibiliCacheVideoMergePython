@@ -32,6 +32,13 @@
 ##### [Github地址](https://github.com/molihuan/BilibiliCacheVideoMergePython)
 ##### [Gitee地址](https://gitee.com/molihuan/BilibiliCacheVideoMergePython)
 
+## 注意
+
+- 此软件存放的目录不能有空格或特殊字符
+- 读取缓存视频的目录不能有空格或特殊字符
+- 输出目录不能有空格或特殊字符
+- 它不依赖网络这个不确定的因素，它只依赖本地缓存文件，只要本地有缓存文件，那么它就可以工作，需要和官方APP（手机版/电脑版均可）配合使用，官方APP进行缓存，它操作缓存文件进行合并导出mp4
+
 ## 下载链接：[跳转](https://github.com/molihuan/BilibiliCacheVideoMergePython/releases)
 
 Linux版本：使用ubuntu-22.04.2-amd64打包，你的系统版本低不保证可用，如有问题请下载源码自行打包
@@ -43,6 +50,13 @@ Windows：使用Win 10打包，你的系统版本低不保证可用，如有问�
 ## 界面:
 
 [![Beafdcf310e77efb3.png](https://z4a.net/images/2023/07/22/Beafdcf310e77efb3.png)](https://z4a.net/image/VBY2Pp)
+
+![HLBTool2.png](https://z4a.net/images/2023/11/08/HLBTool2.png)
+
+![HLBTool3.png](https://z4a.net/images/2023/11/08/HLBTool3.png)
+
+![HLBTool4.png](https://z4a.net/images/2023/11/08/HLBTool4.png)
+
 [![B.png](https://z4a.net/images/2023/07/22/B.png)](https://z4a.net/image/VBYgjE)
 
 ## 写在前面
@@ -133,10 +147,6 @@ pip install pyside6 -i https://pypi.tuna.tsinghua.edu.cn/simple
 pip install pyinstaller
 pip install nuitka
 ```
-
-## 更新日志:
-
-
 
 ## 特别鸣谢
 
