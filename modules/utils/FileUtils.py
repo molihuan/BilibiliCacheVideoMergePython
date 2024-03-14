@@ -44,6 +44,21 @@ class FileUtils:
                 while i:
                     output_file.write(i)
                     i = target_file.read(bufsize)
+    # 解密m4s
+    @staticmethod
+    def decryptM4s2(target_path: str, output_path: str, bufsize: int = 256 * 1024 * 1024) -> None:
+        assert bufsize > 0
+        with open(target_path, 'rb') as target_file:
+            header = target_file.read(32)
+            new_header = header.replace(b'000000000', b'')
+            # new_header = new_header.replace(b'$', b' ')
+            # new_header = new_header.replace(b'avc1', b'')
+            with open(output_path, 'wb') as output_file:
+                output_file.write(new_header)
+                i = target_file.read(bufsize)
+                while i:
+                    output_file.write(i)
+                    i = target_file.read(bufsize)
 
     @staticmethod
     def compareFileSize(file1, file2):

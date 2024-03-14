@@ -16,3 +16,4 @@ class DataManager(BaseService):
         self.configJsonPath: str
         self.sysFFmpegPath: str
         self.cacheFileTpye = None
+        self.decryptM4sType :str

@@ -10,6 +10,7 @@ class ConfigKey():
     CACHE_PATH = "CachePath"
     COMPLETE_PATH = "CompletePath"
     SYS_FFMPEG_PATH = "SysFFmpegPath"
+    DECRYPT_M4S_TYPE = "decryptM4sType"
 
 
 appName = "HLB站缓存合并1.1"

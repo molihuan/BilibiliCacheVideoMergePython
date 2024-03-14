@@ -50,6 +50,7 @@ class BaseDataWorkPage(QWidget):
         configJson = {
             # ConfigKey.SYS_FFMPEG_PATH: self.getSysFFmpegPath(),
             ConfigKey.CACHE_PATH: self.getCachePath(),
+            ConfigKey.DECRYPT_M4S_TYPE: self.getDecryptM4sType(),
             # ConfigKey.COMPLETE_PATH: self.getCompletePath()
         }
         self.ConfigManager.updateByDict(configJson)
@@ -93,3 +94,9 @@ class BaseDataWorkPage(QWidget):
 
     def setCacheFileTpye(self, value):
         self.DataManager.cacheFileTpye = value
+
+    def getDecryptM4sType(self):
+        return self.DataManager.decryptM4sType
+
+    def setDecryptM4sType(self, value):
+        self.DataManager.decryptM4sType = value

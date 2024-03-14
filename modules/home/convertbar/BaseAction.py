@@ -58,8 +58,16 @@ class BaseAction(BaseService):
         hlbAudio = os.path.join(path, "hlbAudio.mp3")
         hlbVideo = os.path.join(path, "hlbVideo.mp4")
         try:
-            FileUtils.decryptM4s(audio_path, hlbAudio)
-            FileUtils.decryptM4s(video_path, hlbVideo)
+            decryptM4sType = self.getContext().getDecryptM4sType()
+            if(decryptM4sType == '方式1'):
+                FileUtils.decryptM4s(audio_path, hlbAudio)
+                FileUtils.decryptM4s(video_path, hlbVideo)
+            elif(decryptM4sType == '方式2'):
+                FileUtils.decryptM4s2(audio_path, hlbAudio)
+                FileUtils.decryptM4s2(video_path, hlbVideo)
+            else:
+                Log.i("decryptM4sType配置错误")
+
         except Exception as e:
             Log.i("fixM4s解密失败")
 

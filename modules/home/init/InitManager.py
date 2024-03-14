@@ -67,6 +67,9 @@ class InitManager(BaseService):
         sysFFmpegPath = configManager.get(ConfigKey.SYS_FFMPEG_PATH)
         context.setSysFFmpegPath(sysFFmpegPath)
 
+        decryptM4sType = configManager.get(ConfigKey.DECRYPT_M4S_TYPE)
+        context.setDecryptM4sType(decryptM4sType)
+
         # 检查ffmpeg是否有执行权限
         SysUtils.checkFFmpegExecPermissions(sysFFmpegPath)
 
@@ -91,7 +94,8 @@ class InitManager(BaseService):
             ConfigKey.INIT_NEED_PATH: 1,
             ConfigKey.SYS_FFMPEG_PATH: sysFFmpegPath,
             ConfigKey.CACHE_PATH: cachePath,
-            ConfigKey.COMPLETE_PATH: completePath
+            ConfigKey.COMPLETE_PATH: completePath,
+            ConfigKey.DECRYPT_M4S_TYPE: "方式2"
         }
         # 将数据写入到config.json文件中
         context.ConfigManager.addByDict(configJson)

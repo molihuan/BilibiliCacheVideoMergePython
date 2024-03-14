@@ -1,5 +1,5 @@
 from PySide6.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QPushButton, QFileDialog, QLabel, \
-    QLineEdit, QSpacerItem, QSizePolicy
+    QLineEdit, QSpacerItem, QSizePolicy, QComboBox
 # 基础设置页面
 
 from modules.home.base.BaseServiceWidget import BaseServiceWidget
@@ -22,6 +22,8 @@ class BaseSettingsPage(BaseServiceWidget):
         icon = SysUtils.getTransparentIcon()
         self.setWindowIcon(icon)
 
+        self.total_layout = QVBoxLayout()
+
         # 初始化主布局和底部布局
         self.main_layout = QHBoxLayout()
         self.bottom_layout = QHBoxLayout()
@@ -41,6 +43,28 @@ class BaseSettingsPage(BaseServiceWidget):
         self.main_layout.addWidget(self.label)
         self.main_layout.addWidget(self.edit_line)
         self.main_layout.addWidget(self.select_path_btn)
+        self.total_layout.addLayout(self.main_layout)
+
+        #解密方式选择
+        decryptionOptionsLayout = QHBoxLayout()
+
+        decryptionOptionslabel = QLabel("B站电脑客户端缓存解密：")
+        decryptionOptionsLayout.addWidget(decryptionOptionslabel)
+
+        self.decryptionOptionsCombobox = QComboBox()
+        self.decryptionOptionsCombobox.addItem("方式1")
+        self.decryptionOptionsCombobox.addItem("方式2")
+        decryptM4sType = mContext.getDecryptM4sType()
+        self.decryptionOptionsCombobox.setCurrentText(decryptM4sType)
+        self.decryptionOptionsCombobox.setStyleSheet("background-color: rgb(33, 37, 43);")
+
+        self.decryptionOptionsCombobox.currentIndexChanged.connect(self.saveConfigData)
+        decryptionOptionsLayout.addWidget(self.decryptionOptionsCombobox)
+
+        central_widget = QWidget()
+        central_widget.setLayout(decryptionOptionsLayout)
+        self.total_layout.addWidget(central_widget)
+
 
         # 创建保存和关闭按钮
         self.save_btn = QPushButton("保存")
@@ -48,17 +72,17 @@ class BaseSettingsPage(BaseServiceWidget):
         self.save_btn.setStyleSheet("background-color: rgb(33, 37, 43);")
         self.save_btn.setMinimumSize(120, 30)
 
-        # self.close_btn = QPushButton("关闭")
-        # self.close_btn.setStyleSheet("background-color: rgb(33, 37, 43);")
-        # self.close_btn.setMinimumSize(120, 30)
+        self.reset_btn = QPushButton("重置")
+        self.reset_btn.setStyleSheet("background-color: rgb(33, 37, 43);")
+        self.reset_btn.setMinimumSize(120, 30)
         # 将保存和关闭按钮添加到底部布局
         self.bottom_layout.addStretch(1)
+        self.bottom_layout.addWidget(self.reset_btn)
         self.bottom_layout.addWidget(self.save_btn)
-        # self.bottom_layout.addWidget(self.close_btn)
 
         # 创建总布局并添加主布局和底部布局
-        self.total_layout = QVBoxLayout()
-        self.total_layout.addLayout(self.main_layout)
+
+
         self.total_layout.addItem(QSpacerItem(0, 0, QSizePolicy.Expanding, QSizePolicy.Expanding))
         self.total_layout.addLayout(self.bottom_layout)
 
@@ -80,5 +104,9 @@ class BaseSettingsPage(BaseServiceWidget):
     def saveConfigData(self):
         context = self.getContext()
         context.setCompletePath(self.edit_line.text())
+        context.setDecryptM4sType(self.decryptionOptionsCombobox.currentText())
         context.saveConfigData()
         context.Toast.shows("保存成功")
+
+    def ttt(self):
+        pass
