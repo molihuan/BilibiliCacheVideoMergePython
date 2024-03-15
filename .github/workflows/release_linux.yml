@@ -18,7 +18,7 @@ jobs:
 
       - name: libEGL.so.1
         run: |
-          sudo apt-get update && sudo apt-get install libgl1
+          sudo apt-get update && sudo apt install libgl1-mesa-glx
           
 
       - name: Install dependencies
