@@ -29,7 +29,7 @@ jobs:
       - uses: actions/upload-artifact@v3.1.3
         with:
           # Artifact name
-          name: release-windows.zip
+          name: windows-release.zip
           # 导出文件夹
           path: script/dist/
           # The desired behavior if no files are found using the provided path.
