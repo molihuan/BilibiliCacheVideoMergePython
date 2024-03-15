@@ -16,3 +16,4 @@ __pycache__/
 !/script/readme.txt
 /test/
 /config.json
+/build/

@@ -5,10 +5,15 @@ import sys
 
 import PyInstaller.__main__
 #///////////////不能改变导入顺序///////////////////////////////
-workPath = os.getcwd()
+
+# 获取当前脚本文件所在的目录
+workPath = os.path.dirname(os.path.realpath(__file__))
+# 将工作目录更改为当前脚本文件所在的目录
+os.chdir(workPath)
 workParentPath = os.path.dirname(workPath)
-# 将workParentPath也设置为工作目录
+# 将模块所在的父目录添加到系统路径中
 sys.path.append(workParentPath)
+
 
 from modules.utils.SysUtils import SysType, SysUtils
 
