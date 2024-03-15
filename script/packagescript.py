@@ -164,7 +164,8 @@ if __name__ == "__main__":
         shutil.rmtree(outputDir)
     print(
         f"请选择打包方式:\n{PkgType.PYINSTALLER_PKG.value}.PyInstaller\n{PkgType.NUITKA.value}.Nuitka\n{PkgType.NON.value}.什么也不做\n请输入前面的序号:")
-    inType = int(input())
+    # inType = int(input())
+    inType = 0
     # sysType = SysType.MAC
     # sysType = SysType.LINUX
     if inType == PkgType.NON.value:
