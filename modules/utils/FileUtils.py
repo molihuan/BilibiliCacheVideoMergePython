@@ -62,12 +62,18 @@ class FileUtils:
 
     @staticmethod
     def compareFileSize(file1, file2):
-        size1 = os.path.getsize(file1)
-        size2 = os.path.getsize(file2)
-
-        if size1 > size2:
+        # 如果第2个文件是音频,返回true
+        if file2.endswith("30280.m4s"):
             return True
-        elif size1 < size2:
+        # 如果第1个文件是音频,返回false
+        elif file1.endswith("30280.m4s"):
             return False
         else:
-            return False
+            size1 = os.path.getsize(file1)
+            size2 = os.path.getsize(file2)
+            if size1 > size2:
+                return True
+            elif size1 < size2:
+                return False
+            else:
+                return False
