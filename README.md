@@ -11,7 +11,8 @@
 <p align="center">将Bilibili缓存文件合并导出为MP4，支持windows、mac、linux，支持B站手机客户端缓存，支持B站电脑客户端缓存</p>
 <p align="center">Merge and export Bilibili cache files into MP4, support caching on B-station mobile client and B-station computer client</p>
 
-
+## 注意,注意,B站电脑客户端缓存文件格式发生了变化,新版的需要使用工具1.2.4版本。1.2.4版本合并工具可以在软件设置中更改解密方法,新缓存的使用方式二,很早以前就缓存好的视频使用方式一
+## (2024.4.7) 注意,本项目因为写的太乱了,准备进行重构。正在努力加班中....
 ## 说明
 
 此软件是为了帮助网友合并哔哩哔哩缓存视频，将bilibili缓存视频合并导出为mp4，支持windows、mac、linux，你可以将它理解为一个专用的格式工厂，并不涉及破解相关内容，仅仅用于学习技术交流，严禁用于商业用途，如有侵权请联系我删档，对你带来困惑和不便我深感抱歉。
